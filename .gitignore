@@ -1,0 +1,10 @@
+# Add this to prevent committing sensitive files
+node_modules/
+.env
+.env.local
+.DS_Store
+*.log
+dist/
+build/
+.vscode/
+.idea/
