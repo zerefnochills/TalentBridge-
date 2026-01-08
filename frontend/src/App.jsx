@@ -11,19 +11,17 @@ import Jobs from './pages/student/Jobs';
 import JobDetails from './pages/student/JobDetails';
 import SkillManagement from './pages/student/SkillManagement';
 import GapAnalysis from './pages/student/GapAnalysis';
+import Assessment from './pages/student/Assessment';
+import AssessmentResult from './pages/student/AssessmentResult';
+import CareerPath from './pages/student/CareerPath';
+import AITutor from './pages/student/AITutor';
+import Navigator from './pages/student/Navigator';
 
 // Company Pages
 import CreateJob from './pages/company/CreateJob';
 import Candidates from './pages/company/Candidates';
-
-// Placeholder pages for features not yet implemented
-import {
-  Assessment,
-  AssessmentResult,
-  CareerPath,
-  TeamRisk,
-  Analytics
-} from './pages/PlaceholderPages';
+import TeamRisk from './pages/company/TeamRisk';
+import Analytics from './pages/company/Analytics';
 
 // Protected Route Component
 const ProtectedRoute = ({ children, requiredRole }) => {
@@ -103,6 +101,16 @@ function AppRoutes() {
       <Route path="/student/job/:jobId" element={
         <ProtectedRoute requiredRole="student">
           <JobDetails />
+        </ProtectedRoute>
+      } />
+      <Route path="/student/ai-tutor" element={
+        <ProtectedRoute requiredRole="student">
+          <AITutor />
+        </ProtectedRoute>
+      } />
+      <Route path="/student/navigator" element={
+        <ProtectedRoute requiredRole="student">
+          <Navigator />
         </ProtectedRoute>
       } />
 

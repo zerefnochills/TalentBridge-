@@ -57,16 +57,11 @@ function Register() {
             await register(formData.email, formData.password, formData.role, profile);
             navigate(formData.role === 'student' ? '/student/dashboard' : '/company/dashboard');
         } catch (err) {
-            // Handle network errors specifically
             if (err.isNetworkError) {
-                setError('Cannot connect to server. Please ensure the backend is running and accessible.');
-            } else if (err.isTimeout) {
-                setError('Connection timeout. Please check your network connection.');
+                setError('Cannot connect to server. Please ensure the backend is running.');
             } else if (err.response) {
-                // Server responded with error
                 setError(err.response.data?.message || 'Registration failed. Please try again.');
             } else {
-                // Other errors
                 setError('An unexpected error occurred. Please try again.');
             }
         } finally {
@@ -75,96 +70,122 @@ function Register() {
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center px-4 py-8">
-            <div className="max-w-2xl w-full">
+        <div className="min-h-screen flex items-center justify-center px-4 py-12 relative overflow-hidden">
+            {/* Animated Background */}
+            <div className="absolute inset-0 bg-gradient-to-br from-purple-50 via-blue-50 to-pink-50"></div>
+            <div className="absolute top-0 left-1/4 w-96 h-96 bg-blue-200/30 rounded-full blur-3xl animate-pulse-slow"></div>
+            <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-purple-200/30 rounded-full blur-3xl animate-pulse-slow delay-1000"></div>
+
+            <div className="max-w-3xl w-full relative z-10 animate-slide-up">
+                {/* Logo */}
                 <div className="text-center mb-8">
-                    <h1 className="text-4xl font-bold text-primary-600 mb-2">TalentBridge</h1>
-                    <p className="text-gray-600">Create your account</p>
+                    <Link to="/login">
+                        <div className="text-5xl font-black text-gradient mb-2 cursor-pointer hover:scale-105 transition-transform">
+                            TalentBridge
+                        </div>
+                    </Link>
+                    <p className="text-gray-600 font-medium">Join the Skill-First Revolution</p>
                 </div>
 
-                <div className="card">
-                    <h2 className="text-2xl font-bold mb-6 text-center">Register</h2>
+                {/* Register Card */}
+                <div className="card-glass">
+                    <h2 className="text-3xl font-bold text-gradient mb-6 text-center">Create Account</h2>
 
                     {error && (
-                        <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded mb-4">
-                            {error}
+                        <div className="bg-red-50 border-2 border-red-200 text-red-700 px-4 py-3 rounded-xl mb-6 animate-scale-in">
+                            <div className="flex items-center gap-2">
+                                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+                                </svg>
+                                <span className="font-medium">{error}</span>
+                            </div>
                         </div>
                     )}
 
-                    <form onSubmit={handleSubmit}>
+                    <form onSubmit={handleSubmit} className="space-y-6">
                         {/* Role Selection */}
-                        <div className="mb-4">
-                            <label className="block text-gray-700 font-medium mb-2">I am a:</label>
+                        <div>
+                            <label className="block text-gray-700 font-bold mb-3">I am a:</label>
                             <div className="grid grid-cols-2 gap-4">
                                 <button
                                     type="button"
                                     onClick={() => setFormData({ ...formData, role: 'student' })}
-                                    className={`py-3 px-4 rounded-lg border-2 transition ${formData.role === 'student'
-                                        ? 'border-primary-600 bg-primary-50 text-primary-700'
-                                        : 'border-gray-300 hover:border-primary-300'
+                                    className={`relative overflow-hidden py-4 px-6 rounded-xl border-2 font-semibold transition-all duration-300 ${formData.role === 'student'
+                                            ? 'border-primary-600 bg-gradient-to-br from-primary-50 to-purple-50 text-primary-700 shadow-glow'
+                                            : 'border-gray-300 hover:border-primary-300 hover:shadow-md'
                                         }`}
                                 >
-                                    Student / Job Seeker
+                                    <div className="flex flex-col items-center gap-2">
+                                        <span className="text-3xl">🎓</span>
+                                        <span>Student / Job Seeker</span>
+                                    </div>
                                 </button>
                                 <button
                                     type="button"
                                     onClick={() => setFormData({ ...formData, role: 'company' })}
-                                    className={`py-3 px-4 rounded-lg border-2 transition ${formData.role === 'company'
-                                        ? 'border-primary-600 bg-primary-50 text-primary-700'
-                                        : 'border-gray-300 hover:border-primary-300'
+                                    className={`relative overflow-hidden py-4 px-6 rounded-xl border-2 font-semibold transition-all duration-300 ${formData.role === 'company'
+                                            ? 'border-primary-600 bg-gradient-to-br from-primary-50 to-purple-50 text-primary-700 shadow-glow'
+                                            : 'border-gray-300 hover:border-primary-300 hover:shadow-md'
                                         }`}
                                 >
-                                    Company / HR
+                                    <div className="flex flex-col items-center gap-2">
+                                        <span className="text-3xl">🏢</span>
+                                        <span>Company / HR</span>
+                                    </div>
                                 </button>
                             </div>
                         </div>
 
                         {/* Common Fields */}
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
-                                <label className="block text-gray-700 font-medium mb-2">Name</label>
+                                <label className="block text-gray-700 font-semibold mb-2">Full Name</label>
                                 <input
                                     type="text"
                                     name="name"
                                     value={formData.name}
                                     onChange={handleChange}
                                     className="input-field"
+                                    placeholder="John Doe"
                                     required
                                 />
                             </div>
                             <div>
-                                <label className="block text-gray-700 font-medium mb-2">Email</label>
+                                <label className="block text-gray-700 font-semibold mb-2">Email Address</label>
                                 <input
                                     type="email"
                                     name="email"
                                     value={formData.email}
                                     onChange={handleChange}
                                     className="input-field"
+                                    placeholder="you@example.com"
                                     required
                                 />
                             </div>
                         </div>
 
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
-                                <label className="block text-gray-700 font-medium mb-2">Password</label>
+                                <label className="block text-gray-700 font-semibold mb-2">Password</label>
                                 <input
                                     type="password"
                                     name="password"
                                     value={formData.password}
                                     onChange={handleChange}
                                     className="input-field"
+                                    placeholder="Minimum 6 characters"
                                     required
                                 />
                             </div>
                             <div>
-                                <label className="block text-gray-700 font-medium mb-2">Confirm Password</label>
+                                <label className="block text-gray-700 font-semibold mb-2">Confirm Password</label>
                                 <input
                                     type="password"
                                     name="confirmPassword"
                                     value={formData.confirmPassword}
                                     onChange={handleChange}
                                     className="input-field"
+                                    placeholder="Re-enter password"
                                     required
                                 />
                             </div>
@@ -172,9 +193,13 @@ function Register() {
 
                         {/* Student-specific fields */}
                         {formData.role === 'student' && (
-                            <>
-                                <div className="mb-4">
-                                    <label className="block text-gray-700 font-medium mb-2">Education</label>
+                            <div className="space-y-4 p-5 bg-gradient-to-br from-blue-50/50 to-purple-50/50 rounded-xl border border-purple-100">
+                                <h3 className="font-bold text-primary-700 flex items-center gap-2">
+                                    <span>🎓</span>
+                                    <span>Student Information</span>
+                                </h3>
+                                <div>
+                                    <label className="block text-gray-700 font-semibold mb-2">Education</label>
                                     <input
                                         type="text"
                                         name="education"
@@ -184,10 +209,8 @@ function Register() {
                                         placeholder="e.g., B.Tech in Computer Science"
                                     />
                                 </div>
-                                <div className="mb-4">
-                                    <label className="block text-gray-700 font-medium mb-2">
-                                        Years of Experience
-                                    </label>
+                                <div>
+                                    <label className="block text-gray-700 font-semibold mb-2">Years of Experience</label>
                                     <input
                                         type="number"
                                         name="experience"
@@ -198,8 +221,8 @@ function Register() {
                                         placeholder="0"
                                     />
                                 </div>
-                                <div className="mb-4">
-                                    <label className="block text-gray-700 font-medium mb-2">Career Goals</label>
+                                <div>
+                                    <label className="block text-gray-700 font-semibold mb-2">Career Goals</label>
                                     <textarea
                                         name="careerGoals"
                                         value={formData.careerGoals}
@@ -209,25 +232,30 @@ function Register() {
                                         placeholder="What are your career aspirations?"
                                     />
                                 </div>
-                            </>
+                            </div>
                         )}
 
                         {/* Company-specific fields */}
                         {formData.role === 'company' && (
-                            <>
-                                <div className="mb-4">
-                                    <label className="block text-gray-700 font-medium mb-2">Company Name</label>
+                            <div className="space-y-4 p-5 bg-gradient-to-br from-blue-50/50 to-purple-50/50 rounded-xl border border-purple-100">
+                                <h3 className="font-bold text-primary-700 flex items-center gap-2">
+                                    <span>🏢</span>
+                                    <span>Company Information</span>
+                                </h3>
+                                <div>
+                                    <label className="block text-gray-700 font-semibold mb-2">Company Name</label>
                                     <input
                                         type="text"
                                         name="companyName"
                                         value={formData.companyName}
                                         onChange={handleChange}
                                         className="input-field"
+                                        placeholder="Your Company Ltd."
                                         required
                                     />
                                 </div>
-                                <div className="mb-4">
-                                    <label className="block text-gray-700 font-medium mb-2">Industry</label>
+                                <div>
+                                    <label className="block text-gray-700 font-semibold mb-2">Industry</label>
                                     <input
                                         type="text"
                                         name="industry"
@@ -237,23 +265,37 @@ function Register() {
                                         placeholder="e.g., Technology, Finance, Healthcare"
                                     />
                                 </div>
-                            </>
+                            </div>
                         )}
 
                         <button
                             type="submit"
                             disabled={loading}
-                            className="btn-primary w-full mb-4"
+                            className="btn-primary w-full text-lg py-4 disabled:opacity-50 disabled:cursor-not-allowed"
                         >
-                            {loading ? 'Creating account...' : 'Register'}
+                            {loading ? (
+                                <div className="flex items-center justify-center gap-3">
+                                    <div className="loading-spinner w-5 h-5 border-2"></div>
+                                    <span>Creating your account...</span>
+                                </div>
+                            ) : (
+                                <div className="flex items-center justify-center gap-2">
+                                    <span>Create Account</span>
+                                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                                    </svg>
+                                </div>
+                            )}
                         </button>
 
-                        <p className="text-center text-gray-600">
-                            Already have an account?{' '}
-                            <Link to="/login" className="text-primary-600 hover:text-primary-700 font-medium">
-                                Login here
-                            </Link>
-                        </p>
+                        <div className="text-center pt-4 border-t border-gray-200">
+                            <p className="text-gray-600">
+                                Already have an account?{' '}
+                                <Link to="/login" className="text-gradient font-bold hover:underline">
+                                    Login here
+                                </Link>
+                            </p>
+                        </div>
                     </form>
                 </div>
             </div>

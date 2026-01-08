@@ -33,18 +33,18 @@ function CompanyDashboard() {
     const totalApplications = jobs.reduce((sum, job) => sum + (job.applications?.length || 0), 0);
 
     return (
-        <div className="min-h-screen bg-gray-50">
+        <div className="min-h-screen bg-gradient-to-br from-gray-50 via-purple-50/20 to-blue-50/30">
             {/* Header */}
-            <div className="bg-white shadow">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+            <div className="bg-gradient-to-r from-primary-600 via-purple-600 to-pink-600 shadow-lg">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
                     <div className="flex justify-between items-center">
                         <div>
-                            <h1 className="text-2xl font-bold text-primary-600">TalentBridge</h1>
-                            <p className="text-gray-600">
-                                {user?.profile?.companyName || 'Company Dashboard'}
+                            <h1 className="text-3xl font-black text-white mb-1">TalentBridge</h1>
+                            <p className="text-purple-100">
+                                {user?.profile?.companyName || 'Company Dashboard'} 🏢
                             </p>
                         </div>
-                        <button onClick={logout} className="btn-secondary">
+                        <button onClick={logout} className="btn-secondary bg-white/20 hover:bg-white/30 text-white border-white/30">
                             Logout
                         </button>
                     </div>
@@ -74,24 +74,52 @@ function CompanyDashboard() {
             {/* Main Content */}
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
                 {/* Quick Stats */}
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-                    <div className="card">
-                        <h3 className="text-sm text-gray-600 mb-1">Total Jobs</h3>
-                        <p className="text-3xl font-bold text-primary-600">{jobs.length}</p>
+                <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8 animate-slide-up">
+                    <div className="card-gradient hover-lift group cursor-pointer">
+                        <div className="flex items-center justify-between">
+                            <div>
+                                <h3 className="text-sm font-semibold text-gray-600 mb-2">Total Jobs</h3>
+                                <p className="text-4xl font-black text-gradient">{jobs.length}</p>
+                            </div>
+                            <div className="w-14 h-14 bg-gradient-to-br from-primary-400 to-purple-500 rounded-2xl flex items-center justify-center transform group-hover:scale-110 group-hover:rotate-6 transition-transform duration-300">
+                                <span className="text-3xl">💼</span>
+                            </div>
+                        </div>
                     </div>
-                    <div className="card">
-                        <h3 className="text-sm text-gray-600 mb-1">Open Positions</h3>
-                        <p className="text-3xl font-bold text-green-600">{openJobs.length}</p>
+                    <div className="card-gradient hover-lift group cursor-pointer">
+                        <div className="flex items-center justify-between">
+                            <div>
+                                <h3 className="text-sm font-semibold text-gray-600 mb-2">Open Positions</h3>
+                                <p className="text-4xl font-black text-green-600">{openJobs.length}</p>
+                            </div>
+                            <div className="w-14 h-14 bg-gradient-to-br from-green-400 to-emerald-500 rounded-2xl flex items-center justify-center transform group-hover:scale-110 group-hover:rotate-6 transition-transform duration-300">
+                                <span className="text-3xl">✅</span>
+                            </div>
+                        </div>
                     </div>
-                    <div className="card">
-                        <h3 className="text-sm text-gray-600 mb-1">Total Applications</h3>
-                        <p className="text-3xl font-bold text-blue-600">{totalApplications}</p>
+                    <div className="card-gradient hover-lift group cursor-pointer">
+                        <div className="flex items-center justify-between">
+                            <div>
+                                <h3 className="text-sm font-semibold text-gray-600 mb-2">Total Applications</h3>
+                                <p className="text-4xl font-black text-blue-600">{totalApplications}</p>
+                            </div>
+                            <div className="w-14 h-14 bg-gradient-to-br from-blue-400 to-cyan-500 rounded-2xl flex items-center justify-center transform group-hover:scale-110 group-hover:rotate-6 transition-transform duration-300">
+                                <span className="text-3xl">📄</span>
+                            </div>
+                        </div>
                     </div>
-                    <div className="card">
-                        <h3 className="text-sm text-gray-600 mb-1">Avg Match Rate</h3>
-                        <p className="text-3xl font-bold text-purple-600">
-                            {analytics?.avgCandidateMatchPercentage || 0}%
-                        </p>
+                    <div className="card-gradient hover-lift group cursor-pointer">
+                        <div className="flex items-center justify-between">
+                            <div>
+                                <h3 className="text-sm font-semibold text-gray-600 mb-2">Avg Match Rate</h3>
+                                <p className="text-4xl font-black text-purple-600">
+                                    {analytics?.avgCandidateMatchPercentage || 0}%
+                                </p>
+                            </div>
+                            <div className="w-14 h-14 bg-gradient-to-br from-purple-400 to-pink-500 rounded-2xl flex items-center justify-center transform group-hover:scale-110 group-hover:rotate-6 transition-transform duration-300">
+                                <span className="text-3xl">🎯</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -130,8 +158,8 @@ function CompanyDashboard() {
                                             </div>
                                             <span
                                                 className={`px-3 py-1 rounded-full text-xs font-medium ${job.status === 'open'
-                                                        ? 'bg-green-100 text-green-800'
-                                                        : 'bg-gray-100 text-gray-800'
+                                                    ? 'bg-green-100 text-green-800'
+                                                    : 'bg-gray-100 text-gray-800'
                                                     }`}
                                             >
                                                 {job.status}

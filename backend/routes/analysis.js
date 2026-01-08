@@ -6,6 +6,19 @@ const { protect, authorize } = require('../middleware/auth');
 const { analyzeSkillGap, getUpskillRecommendations } = require('../utils/gapAnalyzer');
 const { recommendRoles, buildCareerPath } = require('../utils/roleRecommender');
 
+// @route   GET /api/analysis/roles
+// @desc    Get all available roles
+// @access  Private
+router.get('/roles', protect, async (req, res) => {
+    try {
+        const roles = await Role.find().populate('requiredSkills.skillId');
+        res.json({ roles });
+    } catch (error) {
+        console.error('Get roles error:', error);
+        res.status(500).json({ message: 'Server error fetching roles' });
+    }
+});
+
 // @route   POST /api/analysis/gap
 // @desc    Analyze skill gap for a specific role
 // @access  Private (student only)

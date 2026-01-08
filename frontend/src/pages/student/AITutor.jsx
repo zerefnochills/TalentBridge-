@@ -1,0 +1,349 @@
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { useAuth } from '../../context/AuthContext';
+import api from '../../utils/api';
+
+function AITutor() {
+    const { user, logout } = useAuth();
+    const [messages, setMessages] = useState([]);
+    const [inputMessage, setInputMessage] = useState('');
+    const [loading, setLoading] = useState(false);
+    const [gapAnalysis, setGapAnalysis] = useState(null);
+    const [loadingGaps, setLoadingGaps] = useState(false);
+    const [aiProvider, setAiProvider] = useState('none'); // Track AI provider: 'groq', 'openai', or 'none'
+
+    useEffect(() => {
+        // Initial greeting
+        setMessages([{
+            role: 'assistant',
+            content: `👋 Hi ${user?.profile?.name || 'there'}! I'm your AI Learning Tutor.\n\nI can help you:\n• Analyze your skill gaps\n• Get personalized learning recommendations\n• Find the best resources for your goals\n• Plan your learning journey\n\nWhat would you like to work on today?`,
+            timestamp: new Date()
+        }]);
+    }, [user]);
+
+    const loadSkillGaps = async () => {
+        setLoadingGaps(true);
+        try {
+            // Get user's skills
+            const skillsRes = await api.get('/skills/user');
+            const userSkills = skillsRes.data.skills;
+
+            // Get recommendations to find gaps
+            const recsRes = await api.get('/analysis/recommendations');
+            const recommendations = recsRes.data.recommendations;
+
+            if (recommendations && recommendations.length > 0) {
+                const topRole = recommendations[0];
+
+                // Get detailed gap analysis
+                const gapRes = await api.post('/analysis/gap', { roleId: topRole.role._id });
+                setGapAnalysis(gapRes.data);
+            }
+        } catch (error) {
+            console.error('Error loading skill gaps:', error);
+        } finally {
+            setLoadingGaps(false);
+        }
+    };
+
+    const getRecommendations = async () => {
+        if (!gapAnalysis) {
+            await loadSkillGaps();
+        }
+
+        setLoading(true);
+
+        const botMessage = {
+            role: 'assistant',
+            content: '🤔 Analyzing your skills and generating personalized recommendations...',
+            timestamp: new Date()
+        };
+        setMessages(prev => [...prev, botMessage]);
+
+        try {
+            // Prepare skill gaps data
+            const skillGaps = gapAnalysis?.analysis?.skillBreakdown?.filter(s =>
+                s.status === 'below' || s.status === 'missing'
+            ).map(s => ({
+                skillName: s.skillName,
+                currentSCI: s.userSCI || 0,
+                targetSCI: s.requiredSCI
+            })) || [];
+
+            const res = await api.post('/tutor/recommend', {
+                roleId: gapAnalysis?.role?.id,
+                skillGaps
+            });
+
+            const aiMessage = {
+                role: 'assistant',
+                content: res.data.recommendations,
+                mode: res.data.mode,
+                timestamp: new Date()
+            };
+
+            if (res.data.provider) {
+                setAiProvider(res.data.provider);
+            }
+
+            setMessages(prev => [...prev.slice(0, -1), aiMessage]);
+        } catch (error) {
+            console.error('Error getting recommendations:', error);
+            setMessages(prev => [...prev.slice(0, -1), {
+                role: 'assistant',
+                content: '❌ Sorry, I encountered an error. Please try again or check your Gap Analysis page for manual insights.',
+                timestamp: new Date()
+            }]);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const sendMessage = async () => {
+        if (!inputMessage.trim() || loading) return;
+
+        const userMessage = {
+            role: 'user',
+            content: inputMessage,
+            timestamp: new Date()
+        };
+
+        setMessages(prev => [...prev, userMessage]);
+        setInputMessage('');
+        setLoading(true);
+
+        const loadingMessage = {
+            role: 'assistant',
+            content: '💭 Thinking...',
+            timestamp: new Date()
+        };
+        setMessages(prev => [...prev, loadingMessage]);
+
+        try {
+            // Build conversation history
+            const conversationHistory = messages.map(m => ({
+                role: m.role,
+                content: m.content
+            }));
+
+            const res = await api.post('/tutor/chat', {
+                message: inputMessage,
+                conversationHistory
+            });
+
+            const aiMessage = {
+                role: 'assistant',
+                content: res.data.reply,
+                mode: res.data.mode,
+                timestamp: new Date()
+            };
+
+            if (res.data.provider) {
+                setAiProvider(res.data.provider);
+            }
+
+            setMessages(prev => [...prev.slice(0, -1), aiMessage]);
+        } catch (error) {
+            console.error('Error sending message:', error);
+            setMessages(prev => [...prev.slice(0, -1), {
+                role: 'assistant',
+                content: '❌ Sorry, I encountered an error. Please try again.',
+                timestamp: new Date()
+            }]);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const handleKeyPress = (e) => {
+        if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            sendMessage();
+        }
+    };
+
+    const quickActions = [
+        { label: 'Get Learning Plan', action: getRecommendations },
+        { label: 'Analyze My Gaps', action: () => window.location.href = '/student/gap-analysis' },
+        { label: 'Browse Resources', action: () => sendMessage() } // would send current input
+    ];
+
+    return (
+        <div className="min-h-screen bg-gradient-to-br from-gray-50 via-purple-50/20 to-blue-50/30">
+            {/* Header */}
+            <div className="bg-gradient-to-r from-primary-600 via-purple-600 to-pink-600 shadow-lg">
+                <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+                    <div className="flex justify-between items-center">
+                        <div>
+                            <h1 className="text-3xl font-black text-white mb-1">🤖 AI Learning Tutor</h1>
+                            <p className="text-purple-100">Your Personal Learning Assistant</p>
+                        </div>
+                        <button onClick={logout} className="btn-secondary bg-white/20 hover:bg-white/30 text-white border-white/30">
+                            Logout
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            {/* Main Content */}
+            <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+                <div className="mb-6">
+                    <Link to="/student/dashboard" className="inline-flex items-center text-primary-600 hover:text-primary-700 font-semibold group">
+                        <svg className="w-5 h-5 mr-2 group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7" />
+                        </svg>
+                        Back to Dashboard
+                    </Link>
+                </div>
+
+                <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+                    {/* Sidebar - Quick Actions */}
+                    <div className="lg:col-span-1">
+                        <div className="card-glass sticky top-4">
+                            <h3 className="font-bold mb-4 text-gradient">Quick Actions</h3>
+                            <div className="space-y-2">
+                                <button
+                                    onClick={getRecommendations}
+                                    disabled={loadingGaps}
+                                    className="w-full btn-primary text-sm py-2.5 disabled:opacity-50"
+                                >
+                                    {loadingGaps ? (
+                                        <div className="flex items-center justify-center gap-2">
+                                            <div className="loading-spinner w-4 h-4 border-2"></div>
+                                            <span>Loading...</span>
+                                        </div>
+                                    ) : (
+                                        '🎯 Get Learning Plan'
+                                    )}
+                                </button>
+                                <Link
+                                    to="/student/gap-analysis"
+                                    className="w-full btn-secondary text-sm py-2.5 block text-center"
+                                >
+                                    📊 Analyze Gaps
+                                </Link>
+                                <Link
+                                    to="/student/skills"
+                                    className="w-full btn-secondary text-sm py-2.5 block text-center"
+                                >
+                                    ⚡ Take Assessment
+                                </Link>
+                            </div>
+
+                            <div className="mt-6 pt-6 border-t border-gray-200">
+                                <h4 className="text-xs font-bold text-gray-700 mb-3">💡 Example Questions</h4>
+                                <ul className="text-xs text-gray-600 space-y-2">
+                                    <li className="flex items-start">
+                                        <span className="text-primary-500 mr-2">•</span>
+                                        <span>How do I improve my JavaScript skills?</span>
+                                    </li>
+                                    <li className="flex items-start">
+                                        <span className="text-primary-500 mr-2">•</span>
+                                        <span>What should I learn next?</span>
+                                    </li>
+                                    <li className="flex items-start">
+                                        <span className="text-primary-500 mr-2">•</span>
+                                        <span>Best free resources for React?</span>
+                                    </li>
+                                    <li className="flex items-start">
+                                        <span className="text-primary-500 mr-2">•</span>
+                                        <span>How to prepare for interviews?</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Chat Area */}
+                    <div className="lg:col-span-3">
+                        <div className="card-glass h-[calc(100vh-300px)] flex flex-col">
+                            {/* Messages */}
+                            <div className="flex-1 overflow-y-auto p-6 space-y-4">
+                                {messages.map((msg, idx) => (
+                                    <div
+                                        key={idx}
+                                        className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'} animate-slide-up`}
+                                    >
+                                        <div
+                                            className={`max-w-[80%] rounded-2xl px-5 py-3 ${msg.role === 'user'
+                                                ? 'chat-message-user shadow-md'
+                                                : 'chat-message-ai shadow-sm'
+                                                }`}
+                                        >
+                                            <div className="text-sm whitespace-pre-wrap leading-relaxed">{msg.content}</div>
+                                            {msg.mode && (
+                                                <div className="text-xs mt-2 opacity-70 flex items-center gap-1">
+                                                    <span className="w-1.5 h-1.5 bg-current rounded-full"></span>
+                                                    <span>{msg.mode}</span>
+                                                </div>
+                                            )}
+                                            <div className="text-xs mt-1 opacity-50">
+                                                {msg.timestamp.toLocaleTimeString()}
+                                            </div>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+
+                            {/* Input Area */}
+                            <div className="border-t border-gray-200 p-4 bg-white/50 backdrop-blur-sm">
+                                <div className="flex gap-3">
+                                    <textarea
+                                        value={inputMessage}
+                                        onChange={(e) => setInputMessage(e.target.value)}
+                                        onKeyPress={handleKeyPress}
+                                        placeholder="Ask me anything about learning, skills, or career paths..."
+                                        className="flex-1 input-field resize-none"
+                                        rows="2"
+                                        disabled={loading}
+                                    />
+                                    <button
+                                        onClick={sendMessage}
+                                        disabled={loading || !inputMessage.trim()}
+                                        className="btn-primary px-6 self-end disabled:opacity-50 flex items-center gap-2"
+                                    >
+                                        {loading ? (
+                                            <div className="loading-spinner w-5 h-5 border-2"></div>
+                                        ) : (
+                                            <>
+                                                <span>Send</span>
+                                                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                                                </svg>
+                                            </>
+                                        )}
+                                    </button>
+                                </div>
+                                <p className="text-xs text-gray-500 mt-2">
+                                    Press <kbd className="px-1.5 py-0.5 bg-gray-200 rounded text-xs">Enter</kbd> to send,
+                                    <kbd className="px-1.5 py-0.5 bg-gray-200 rounded text-xs ml-1">Shift+Enter</kbd> for new line
+                                </p>
+                            </div>
+                        </div>
+
+                        {/* Info Box */}
+                        <div className="mt-4 bg-gradient-to-br from-blue-50 to-purple-50 border-2 border-blue-200 rounded-xl p-4">
+                            <div className="flex items-start gap-3">
+                                <div className="w-10 h-10 bg-gradient-to-br from-blue-400 to-purple-500 rounded-xl flex items-center justify-center flex-shrink-0">
+                                    <span className="text-xl">💡</span>
+                                </div>
+                                <div>
+                                    <h4 className="text-sm font-bold text-blue-900 mb-1">About AI Tutor</h4>
+                                    <p className="text-xs text-blue-800">
+                                        Your AI Tutor analyzes your skill gaps and provides personalized recommendations.
+                                        For best results, take assessments and complete your Gap Analysis first.
+                                        {aiProvider === 'groq' && ' ⚡ Powered by Groq (Lightning fast!)'}
+                                        {aiProvider === 'openai' && ' Powered by OpenAI'}
+                                        {aiProvider === 'none' && ' Currently running in rule-based mode.'}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+}
+
+export default AITutor;

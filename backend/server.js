@@ -63,6 +63,8 @@ const assessmentRoutes = require('./routes/assessments');
 const analysisRoutes = require('./routes/analysis');
 const jobRoutes = require('./routes/jobs');
 const companyRoutes = require('./routes/company');
+const tutorRoutes = require('./routes/tutor');
+const navigatorRoutes = require('./routes/navigator');
 
 // Use routes
 app.use('/api/auth', authRoutes);
@@ -71,6 +73,8 @@ app.use('/api/assessments', assessmentRoutes);
 app.use('/api/analysis', analysisRoutes);
 app.use('/api/jobs', jobRoutes);
 app.use('/api/company', companyRoutes);
+app.use('/api/tutor', tutorRoutes);
+app.use('/api/navigator', navigatorRoutes);
 
 // Error handler middleware
 app.use((err, req, res, next) => {

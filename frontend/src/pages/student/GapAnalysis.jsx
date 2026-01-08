@@ -52,16 +52,16 @@ function GapAnalysis() {
     };
 
     return (
-        <div className="min-h-screen bg-gray-50">
+        <div className="min-h-screen bg-gradient-to-br from-gray-50 via-purple-50/20 to-blue-50/30">
             {/* Header */}
-            <div className="bg-white shadow">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+            <div className="bg-gradient-to-r from-primary-600 via-purple-600 to-pink-600 shadow-lg">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
                     <div className="flex justify-between items-center">
                         <div>
-                            <h1 className="text-2xl font-bold text-primary-600">TalentBridge</h1>
-                            <p className="text-gray-600">Welcome, {user?.profile?.name || 'Student'}</p>
+                            <h1 className="text-3xl font-black text-white mb-1">🎯 Gap Analysis</h1>
+                            <p className="text-purple-100">Welcome, {user?.profile?.name}!</p>
                         </div>
-                        <button onClick={logout} className="btn-secondary">
+                        <button onClick={logout} className="btn-secondary bg-white/20 hover:bg-white/30 text-white border-white/30">
                             Logout
                         </button>
                     </div>
@@ -70,16 +70,21 @@ function GapAnalysis() {
 
             {/* Main Content */}
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-                <div className="mb-6">
-                    <Link to="/student/dashboard" className="text-primary-600 hover:text-primary-700 font-medium">
-                        ← Back to Dashboard
+                <div className="mb-6 animate-slide-up">
+                    <Link to="/student/dashboard" className="inline-flex items-center text-primary-600 hover:text-primary-700 font-semibold group">
+                        <svg className="w-5 h-5 mr-2 group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7" />
+                        </svg>
+                        Back to Dashboard
                     </Link>
                 </div>
 
-                <h2 className="text-3xl font-bold mb-2">Gap Analysis</h2>
-                <p className="text-gray-600 mb-6">
-                    See how your current skills match different job roles and identify what to learn next.
-                </p>
+                <div className="mb-8 text-center">
+                    <h2 className="text-4xl font-black text-gradient mb-3">Discover Your Skill Gaps</h2>
+                    <p className="text-gray-600 text-lg">
+                        See how your current skills match up against your target role requirements.
+                    </p>
+                </div>
 
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                     {/* Role Selection */}
@@ -189,7 +194,7 @@ function GapAnalysis() {
                     </ul>
                 </div>
             </div>
-        </div>
+        </div >
     );
 }
 
