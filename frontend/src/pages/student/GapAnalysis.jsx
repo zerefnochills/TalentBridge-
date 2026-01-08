@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
-import api from '../utils/api';
-import SkillMatchBreakdown from '../components/SkillMatchBreakdown';
+import { useAuth } from '../../context/AuthContext';
+import api from '../../utils/api';
+import SkillMatchBreakdown from '../../components/SkillMatchBreakdown';
 
 function GapAnalysis() {
     const { user, logout } = useAuth();
@@ -98,8 +98,8 @@ function GapAnalysis() {
                                             key={role._id}
                                             onClick={() => analyzeGap(role._id)}
                                             className={`w-full text-left p-3 rounded-lg border-2 transition ${selectedRole === role._id
-                                                    ? 'border-primary-600 bg-primary-50'
-                                                    : 'border-gray-200 hover:border-primary-300'
+                                                ? 'border-primary-600 bg-primary-50'
+                                                : 'border-gray-200 hover:border-primary-300'
                                                 }`}
                                         >
                                             <div className="font-medium">{role.name}</div>
