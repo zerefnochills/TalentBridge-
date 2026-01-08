@@ -5,15 +5,22 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import StudentDashboard from './pages/student/Dashboard';
 import CompanyDashboard from './pages/company/Dashboard';
+
+// Student Pages
+import Jobs from './pages/student/Jobs';
+import JobDetails from './pages/student/JobDetails';
+import SkillManagement from './pages/student/SkillManagement';
+import GapAnalysis from './pages/student/GapAnalysis';
+
+// Company Pages
+import CreateJob from './pages/company/CreateJob';
+import Candidates from './pages/company/Candidates';
+
+// Placeholder pages for features not yet implemented
 import {
-  SkillManagement,
   Assessment,
   AssessmentResult,
-  GapAnalysis,
   CareerPath,
-  JobSearch,
-  CreateJob,
-  Candidates,
   TeamRisk,
   Analytics
 } from './pages/PlaceholderPages';
@@ -90,7 +97,12 @@ function AppRoutes() {
       } />
       <Route path="/student/jobs" element={
         <ProtectedRoute requiredRole="student">
-          <JobSearch />
+          <Jobs />
+        </ProtectedRoute>
+      } />
+      <Route path="/student/job/:jobId" element={
+        <ProtectedRoute requiredRole="student">
+          <JobDetails />
         </ProtectedRoute>
       } />
 

@@ -57,7 +57,18 @@ function Register() {
             await register(formData.email, formData.password, formData.role, profile);
             navigate(formData.role === 'student' ? '/student/dashboard' : '/company/dashboard');
         } catch (err) {
-            setError(err.response?.data?.message || 'Registration failed. Please try again.');
+            // Handle network errors specifically
+            if (err.isNetworkError) {
+                setError('Cannot connect to server. Please ensure the backend is running and accessible.');
+            } else if (err.isTimeout) {
+                setError('Connection timeout. Please check your network connection.');
+            } else if (err.response) {
+                // Server responded with error
+                setError(err.response.data?.message || 'Registration failed. Please try again.');
+            } else {
+                // Other errors
+                setError('An unexpected error occurred. Please try again.');
+            }
         } finally {
             setLoading(false);
         }
@@ -89,8 +100,8 @@ function Register() {
                                     type="button"
                                     onClick={() => setFormData({ ...formData, role: 'student' })}
                                     className={`py-3 px-4 rounded-lg border-2 transition ${formData.role === 'student'
-                                            ? 'border-primary-600 bg-primary-50 text-primary-700'
-                                            : 'border-gray-300 hover:border-primary-300'
+                                        ? 'border-primary-600 bg-primary-50 text-primary-700'
+                                        : 'border-gray-300 hover:border-primary-300'
                                         }`}
                                 >
                                     Student / Job Seeker
@@ -99,8 +110,8 @@ function Register() {
                                     type="button"
                                     onClick={() => setFormData({ ...formData, role: 'company' })}
                                     className={`py-3 px-4 rounded-lg border-2 transition ${formData.role === 'company'
-                                            ? 'border-primary-600 bg-primary-50 text-primary-700'
-                                            : 'border-gray-300 hover:border-primary-300'
+                                        ? 'border-primary-600 bg-primary-50 text-primary-700'
+                                        : 'border-gray-300 hover:border-primary-300'
                                         }`}
                                 >
                                     Company / HR

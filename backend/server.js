@@ -11,10 +11,41 @@ connectDB();
 
 const app = express();
 
+// CORS Configuration - allow requests from different devices
+const corsOptions = {
+    origin: function (origin, callback) {
+        // Allow requests with no origin (like mobile apps or curl requests)
+        if (!origin) return callback(null, true);
+
+        // In development, allow all origins
+        if (process.env.NODE_ENV === 'development') {
+            return callback(null, true);
+        }
+
+        // In production, check against allowed origins
+        const allowedOrigins = process.env.CORS_ORIGIN
+            ? process.env.CORS_ORIGIN.split(',')
+            : ['http://localhost:3000'];
+
+        if (allowedOrigins.indexOf(origin) !== -1) {
+            callback(null, true);
+        } else {
+            callback(new Error('Not allowed by CORS'));
+        }
+    },
+    credentials: true
+};
+
 // Middleware
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// Request logging middleware
+app.use((req, res, next) => {
+    console.log(`${new Date().toISOString()} - ${req.method} ${req.path}`);
+    next();
+});
 
 // Simple health check route
 app.get('/api/health', (req, res) => {
@@ -56,8 +87,10 @@ app.use((req, res) => {
 });
 
 const PORT = process.env.PORT || 5000;
+const HOST = '0.0.0.0'; // Bind to all network interfaces
 
-app.listen(PORT, () => {
-    console.log(`🚀 Server running on port ${PORT}`);
+app.listen(PORT, HOST, () => {
+    console.log(`🚀 Server running on http://${HOST}:${PORT}`);
     console.log(`📡 Environment: ${process.env.NODE_ENV || 'development'}`);
+    console.log(`🌐 Access from other devices: http://<YOUR_IP>:${PORT}`);
 });
