@@ -69,6 +69,9 @@ function StudentDashboard() {
                         <Link to="/student/skills" className="nav-link whitespace-nowrap">
                             ⚡ My Skills
                         </Link>
+                        <Link to="/student/sci" className="nav-link whitespace-nowrap">
+                            🧮 SCI Calculator
+                        </Link>
                         <Link to="/student/gap-analysis" className="nav-link whitespace-nowrap">
                             🎯 Gap Analysis
                         </Link>

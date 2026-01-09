@@ -31,7 +31,7 @@ function GapAnalysis() {
         setGapAnalysis(null);
 
         try {
-            const res = await api.get(`/analysis/gap/${roleId}`);
+            const res = await api.post('/analysis/gap', { roleId });
             setGapAnalysis(res.data);
         } catch (error) {
             console.error('Error analyzing gap:', error);
@@ -107,7 +107,7 @@ function GapAnalysis() {
                                                 : 'border-gray-200 hover:border-primary-300'
                                                 }`}
                                         >
-                                            <div className="font-medium">{role.name}</div>
+                                            <div className="font-medium">{role.title}</div>
                                             <div className="text-xs text-gray-500 mt-1">
                                                 {role.requiredSkills?.length || 0} skills required
                                             </div>
@@ -131,7 +131,7 @@ function GapAnalysis() {
                                 {/* Overall Readiness */}
                                 <div className="card">
                                     <div className="text-center mb-6">
-                                        <h3 className="text-xl font-bold mb-2">{gapAnalysis.role?.name}</h3>
+                                        <h3 className="text-xl font-bold mb-2">{gapAnalysis.role?.title}</h3>
                                         <div className={`text-5xl font-bold ${getReadinessColor(gapAnalysis.matchPercentage)}`}>
                                             {gapAnalysis.matchPercentage}%
                                         </div>

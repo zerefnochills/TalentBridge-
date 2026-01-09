@@ -32,7 +32,10 @@ function SkillManagement() {
 
     const addSkill = async (skillId) => {
         try {
-            await api.post('/skills/user', { skillId });
+            await api.post('/skills/user', {
+                skillId,
+                lastUsedDate: new Date().toISOString()
+            });
             loadData(); // Reload to update the list
         } catch (error) {
             console.error('Error adding skill:', error);

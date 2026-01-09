@@ -90,22 +90,28 @@ function calculateSCI(assessmentScore = 0, lastUsedDate, scenarioScore = 0) {
  * @returns {Object} Updated skill data with new SCI
  */
 function updateSkillSCI(skillData, assessmentScore = null, scenarioScore = null) {
-    const currentAssessment = assessmentScore !== null ? assessmentScore : skillData.assessmentScore;
-    const currentScenario = scenarioScore !== null ? scenarioScore : skillData.scenarioScore;
+    // Convert Mongoose subdocument to plain object if needed
+    const plainSkillData = skillData.toObject ? skillData.toObject() : skillData;
+
+    const currentAssessment = assessmentScore !== null ? assessmentScore : (plainSkillData.assessmentScore || 0);
+    const currentScenario = scenarioScore !== null ? scenarioScore : (plainSkillData.scenarioScore || 0);
 
     const sciResult = calculateSCI(
         currentAssessment,
-        skillData.lastUsedDate,
+        plainSkillData.lastUsedDate,
         currentScenario
     );
 
     return {
-        ...skillData,
+        skillId: plainSkillData.skillId,
+        selfRating: plainSkillData.selfRating || 3,
+        lastUsedDate: plainSkillData.lastUsedDate,
+        category: plainSkillData.category || 'core',
         assessmentScore: currentAssessment,
         scenarioScore: currentScenario,
         freshnessScore: sciResult.breakdown.freshnessScore,
         sci: sciResult.sci,
-        lastAssessed: assessmentScore !== null ? new Date() : skillData.lastAssessed
+        lastAssessed: assessmentScore !== null ? new Date() : plainSkillData.lastAssessed
     };
 }
 

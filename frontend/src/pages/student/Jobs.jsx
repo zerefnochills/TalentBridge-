@@ -186,7 +186,7 @@ function Jobs() {
 
                                         {/* Action Button */}
                                         <Link
-                                            to={`/student/job/${job._id}`}
+                                            to={`/student/jobs/${job._id}`}
                                             className={`inline-block px-4 py-2 rounded-lg font-medium text-sm ${job.matchPercentage >= 80
                                                 ? 'bg-green-600 text-white hover:bg-green-700'
                                                 : job.matchPercentage >= 60
