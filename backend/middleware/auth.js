@@ -7,6 +7,7 @@ const User = require('../models/User');
 const protect = async (req, res, next) => {
     let token;
 
+    // Check if authorization header exists and starts with Bearer
     if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
         try {
             // Get token from header
@@ -27,9 +28,8 @@ const protect = async (req, res, next) => {
             console.error('Auth middleware error:', error);
             return res.status(401).json({ message: 'Not authorized, token failed' });
         }
-    }
-
-    if (!token) {
+    } else {
+        // No authorization header or doesn't start with Bearer
         return res.status(401).json({ message: 'Not authorized, no token' });
     }
 };

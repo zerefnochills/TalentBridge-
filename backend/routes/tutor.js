@@ -200,9 +200,10 @@ function buildRecommendationPrompt(userSkills, skillGaps) {
 
 // Helper function to build user context
 function buildUserContext(user) {
-    const skills = user.skills.map(s =>
-        `${s.skillId.name} (SCI: ${Math.round(s.sci)})`
-    ).join(', ');
+    const skills = user.skills
+        .filter(s => s.skillId) // Filter out skills without skillId
+        .map(s => `${s.skillId?.name || 'Unknown Skill'} (SCI: ${Math.round(s.sci || 0)})`)
+        .join(', ');
 
     return `Student Profile:
 - Name: ${user.profile?.name || 'Student'}

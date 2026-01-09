@@ -241,14 +241,14 @@ function CreateJob() {
                         {/* Info Box */}
                         <div className="card border-primary-500/30 bg-primary-500/10 mb-6">
                             <div className="flex items-start gap-3">
-                                <div className="text-2xl">🎯</div>
+                                <div className="text-xl font-black text-primary-400">i</div>
                                 <div>
                                     <h4 className="font-semibold text-primary-400 mb-2">Skill-First Hiring</h4>
                                     <ul className="text-sm text-text-muted space-y-1">
-                                        <li>• No resume required - candidates matched on verified skills only</li>
-                                        <li>• Importance weights (1-5) determine how much each skill affects the match</li>
-                                        <li>• Candidates see their match percentage before applying</li>
-                                        <li>• All matching is transparent and explainable</li>
+                                        <li>- No resume required - candidates matched on verified skills only</li>
+                                        <li>- Importance weights (1-5) determine how much each skill affects the match</li>
+                                        <li>- Candidates see their match percentage before applying</li>
+                                        <li>- All matching is transparent and explainable</li>
                                     </ul>
                                 </div>
                             </div>

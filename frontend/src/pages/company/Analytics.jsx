@@ -51,7 +51,7 @@ function Analytics() {
         <div className="container">
             {/* Page Header */}
             <div className="mb-8">
-                <h1 className="text-3xl font-bold text-text-main mb-2">📈 HR Analytics Dashboard</h1>
+                <h1 className="text-3xl font-bold text-text-main mb-2">HR Analytics Dashboard</h1>
                 <p className="text-text-muted">Track your hiring performance and candidate quality metrics.</p>
             </div>
 
@@ -201,30 +201,30 @@ function Analytics() {
 
                     {/* Insights */}
                     <div className="card border-primary-500/30 bg-primary-500/10">
-                        <h3 className="text-lg font-semibold text-primary-400 mb-3">📈 Key Insights</h3>
+                        <h3 className="text-lg font-semibold text-primary-400 mb-3">Key Insights</h3>
                         <ul className="space-y-2 text-sm text-text-muted">
                             <li className="flex items-start">
-                                <span className="mr-2">•</span>
+                                <span className="mr-2">-</span>
                                 <span>
                                     <strong className="text-text-main">High quality candidates:</strong> Average match quality of {analytics.avgMatchPercentage}%
                                     indicates good job requirements alignment
                                 </span>
                             </li>
                             <li className="flex items-start">
-                                <span className="mr-2">•</span>
+                                <span className="mr-2">-</span>
                                 <span>
                                     <strong className="text-text-main">Faster hiring:</strong> {analytics.hiringMetrics.avgTimeToHire} days time-to-hire
                                     is better than industry average
                                 </span>
                             </li>
                             <li className="flex items-start">
-                                <span className="mr-2">•</span>
+                                <span className="mr-2">-</span>
                                 <span>
                                     <strong className="text-text-main">JavaScript ecosystem dominance:</strong> Most job postings require JS, React, Node.js
                                 </span>
                             </li>
                             <li className="flex items-start">
-                                <span className="mr-2">•</span>
+                                <span className="mr-2">-</span>
                                 <span>
                                     <strong className="text-text-main">Strong offer acceptance:</strong> {analytics.hiringMetrics.offerAcceptanceRate}%
                                     shows competitive positioning
@@ -238,14 +238,14 @@ function Analytics() {
             {/* Info Box */}
             <div className="mt-8 card border-white/10">
                 <div className="flex items-start gap-4">
-                    <div className="text-3xl">📊</div>
+                    <div className="text-2xl font-black text-primary-400">i</div>
                     <div>
                         <h3 className="font-bold text-text-main mb-2">About Analytics</h3>
                         <ul className="text-sm text-text-muted space-y-1">
-                            <li>• All metrics are calculated based on verified SCI scores</li>
-                            <li>• Match quality reflects how well candidates meet job requirements</li>
-                            <li>• Time to hire measured from job posting to acceptance</li>
-                            <li>• Skill demand shows which skills appear most in your job postings</li>
+                            <li>- All metrics are calculated based on verified SCI scores</li>
+                            <li>- Match quality reflects how well candidates meet job requirements</li>
+                            <li>- Time to hire measured from job posting to acceptance</li>
+                            <li>- Skill demand shows which skills appear most in your job postings</li>
                         </ul>
                     </div>
                 </div>

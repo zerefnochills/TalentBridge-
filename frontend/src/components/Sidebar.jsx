@@ -10,20 +10,26 @@ const Sidebar = () => {
     const isCompany = user?.role === 'company';
 
     const studentLinks = [
-        { path: '/student/dashboard', label: 'Dashboard', icon: '📊' },
-        { path: '/student/skills', label: 'My Skills', icon: '🎯' },
-        { path: '/student/gap-analysis', label: 'Gap Analysis', icon: '📈' },
-        { path: '/student/ai-tutor', label: 'AI Tutor', icon: '🤖' },
-        { path: '/student/navigator', label: 'Navigator', icon: '🧭' },
-        { path: '/student/career', label: 'Career Path', icon: '🚀' },
-        { path: '/student/jobs', label: 'Find Jobs', icon: '💼' },
+        { path: '/student/dashboard', label: 'Dashboard', icon: 'HOME' },
+        { path: '/student/skills', label: 'My Skills', icon: 'SKILLS' },
+        { path: '/student/gap-analysis', label: 'Gap Analysis', icon: 'GAP' },
+        { path: '/student/ai-tutor', label: 'AI Tutor', icon: 'AI' },
+        { path: '/student/navigator', label: 'Navigator', icon: 'NAV' },
+        { path: '/student/roadmap', label: 'Roadmap', icon: 'MAP' },
+        { path: '/student/analytics', label: 'Analytics', icon: 'CHART' },
+        { path: '/student/interview-prep', label: 'Interview Prep', icon: 'MIC' },
+        { path: '/student/career', label: 'Career Path', icon: 'PATH' },
+        { path: '/student/jobs', label: 'Find Jobs', icon: 'JOBS' },
+        { path: '/student/profile', label: 'Profile', icon: 'USER' },
     ];
 
     const companyLinks = [
-        { path: '/company/dashboard', label: 'Dashboard', icon: '📊' },
-        { path: '/company/jobs', label: 'Job Listings', icon: '📝' },
-        { path: '/company/candidates', label: 'Candidates', icon: '👥' },
-        { path: '/company/analytics', label: 'Analytics', icon: '📈' },
+        { path: '/company/dashboard', label: 'Dashboard', icon: 'HOME' },
+        { path: '/company/mentor', label: 'Mentor Portal', icon: 'TEAM' },
+        { path: '/company/create-job', label: 'Post Job', icon: 'POST' },
+        { path: '/company/analytics', label: 'Analytics', icon: 'STATS' },
+        { path: '/company/team-risk', label: 'Team Risk', icon: 'RISK' },
+        { path: '/company/profile', label: 'Profile', icon: 'USER' },
     ];
 
     const links = isCompany ? companyLinks : studentLinks;
@@ -34,7 +40,7 @@ const Sidebar = () => {
         <aside className="sidebar">
             {/* Logo */}
             <div className="sidebar-logo">
-                <span className="text-2xl">🌉</span>
+                <span className="text-2xl font-black text-primary-400">TB</span>
                 <span>TalentBridge</span>
             </div>
 
@@ -46,7 +52,7 @@ const Sidebar = () => {
                         to={link.path}
                         className={`sidebar-item ${isActive(link.path) ? 'active' : ''}`}
                     >
-                        <span className="text-lg">{link.icon}</span>
+                        <span className="text-xs font-bold text-primary-400 w-12">{link.icon}</span>
                         <span>{link.label}</span>
                     </Link>
                 ))}
@@ -67,7 +73,7 @@ const Sidebar = () => {
                     onClick={logout}
                     className="sidebar-item w-full mt-2 text-danger hover:bg-danger/10"
                 >
-                    <span className="text-lg">🚪</span>
+                    <span className="text-xs font-bold w-12">EXIT</span>
                     <span>Logout</span>
                 </button>
             </div>

@@ -1,0 +1,206 @@
+[
+    {
+        "id": "web-foundations",
+        "data": {
+            "label": "Web Foundations"
+        },
+        "position": {
+            "x": 250,
+            "y": 0
+        },
+        "topicId": "web-foundations",
+        "style": {
+            "background": "#6366f1",
+            "color": "#fff",
+            "fontWeight": "bold",
+            "borderRadius": "12px",
+            "padding": "12px 16px",
+            "border": "2px solid #4f46e5",
+            "fontSize": "14px"
+        }
+    },
+    {
+        "id": "frontend",
+        "data": {
+            "label": "Frontend Development"
+        },
+        "position": {
+            "x": 100,
+            "y": 100
+        },
+        "topicId": "fs-frontend",
+        "style": {
+            "background": "#f97316",
+            "color": "#fff",
+            "borderRadius": "12px",
+            "padding": "12px 16px",
+            "border": "1px solid #ea580c",
+            "fontSize": "14px"
+        }
+    },
+    {
+        "id": "backend",
+        "data": {
+            "label": "Backend Development"
+        },
+        "position": {
+            "x": 400,
+            "y": 100
+        },
+        "topicId": "fs-backend",
+        "style": {
+            "background": "#8b5cf6",
+            "color": "#fff",
+            "borderRadius": "12px",
+            "padding": "12px 16px",
+            "border": "1px solid #7c3aed",
+            "fontSize": "14px"
+        }
+    },
+    {
+        "id": "databases",
+        "data": {
+            "label": "Databases & ORMs"
+        },
+        "position": {
+            "x": 250,
+            "y": 200
+        },
+        "topicId": "fs-databases",
+        "style": {
+            "background": "#ec4899",
+            "color": "#fff",
+            "borderRadius": "12px",
+            "padding": "12px 16px",
+            "border": "1px solid #db2777",
+            "fontSize": "14px"
+        }
+    },
+    {
+        "id": "apis",
+        "data": {
+            "label": "API Design & Integration"
+        },
+        "position": {
+            "x": 250,
+            "y": 300
+        },
+        "topicId": "fs-apis",
+        "style": {
+            "background": "#06b6d4",
+            "color": "#fff",
+            "borderRadius": "12px",
+            "padding": "12px 16px",
+            "border": "1px solid #0891b2",
+            "fontSize": "14px"
+        }
+    },
+    {
+        "id": "auth",
+        "data": {
+            "label": "Authentication & Security"
+        },
+        "position": {
+            "x": 250,
+            "y": 400
+        },
+        "topicId": "fs-auth",
+        "style": {
+            "background": "#22c55e",
+            "color": "#fff",
+            "borderRadius": "12px",
+            "padding": "12px 16px",
+            "border": "1px solid #16a34a",
+            "fontSize": "14px"
+        }
+    },
+    {
+        "id": "deployment",
+        "data": {
+            "label": "Full Stack Deployment"
+        },
+        "position": {
+            "x": 250,
+            "y": 500
+        },
+        "topicId": "fs-deployment",
+        "style": {
+            "background": "#14b8a6",
+            "color": "#fff",
+            "borderRadius": "12px",
+            "padding": "12px 16px",
+            "border": "1px solid #0d9488",
+            "fontSize": "14px"
+        }
+    },
+    {
+        "id": "e1-2",
+        "source": "web-foundations",
+        "target": "frontend",
+        "animated": true,
+        "style": {
+            "stroke": "#6366f1",
+            "strokeWidth": 2
+        }
+    },
+    {
+        "id": "e1-3",
+        "source": "web-foundations",
+        "target": "backend",
+        "animated": true,
+        "style": {
+            "stroke": "#6366f1",
+            "strokeWidth": 2
+        }
+    },
+    {
+        "id": "e2-4",
+        "source": "frontend",
+        "target": "databases",
+        "animated": true,
+        "style": {
+            "stroke": "#f97316",
+            "strokeWidth": 2
+        }
+    },
+    {
+        "id": "e3-4",
+        "source": "backend",
+        "target": "databases",
+        "animated": true,
+        "style": {
+            "stroke": "#8b5cf6",
+            "strokeWidth": 2
+        }
+    },
+    {
+        "id": "e4-5",
+        "source": "databases",
+        "target": "apis",
+        "animated": true,
+        "style": {
+            "stroke": "#ec4899",
+            "strokeWidth": 2
+        }
+    },
+    {
+        "id": "e5-6",
+        "source": "apis",
+        "target": "auth",
+        "animated": true,
+        "style": {
+            "stroke": "#06b6d4",
+            "strokeWidth": 2
+        }
+    },
+    {
+        "id": "e6-7",
+        "source": "auth",
+        "target": "deployment",
+        "animated": true,
+        "style": {
+            "stroke": "#22c55e",
+            "strokeWidth": 2
+        }
+    }
+]

@@ -5,21 +5,24 @@ import React from 'react';
  * Color-coded based on match level
  */
 function MatchPercentageBadge({ percentage, size = 'large', showLabel = true }) {
+    // Defensive check for undefined or null percentage
+    const safePercentage = typeof percentage === 'number' ? Math.round(percentage) : 0;
+
     const getMatchColor = () => {
-        if (percentage >= 80) return 'bg-green-500 text-white';
-        if (percentage >= 60) return 'bg-yellow-500 text-white';
+        if (safePercentage >= 80) return 'bg-green-500 text-white';
+        if (safePercentage >= 60) return 'bg-yellow-500 text-white';
         return 'bg-red-500 text-white';
     };
 
     const getMatchText = () => {
-        if (percentage >= 80) return 'Excellent Match';
-        if (percentage >= 60) return 'Good Match';
+        if (safePercentage >= 80) return 'Excellent Match';
+        if (safePercentage >= 60) return 'Good Match';
         return 'Not Ready';
     };
 
     const getMatchSubtext = () => {
-        if (percentage >= 80) return 'Apply Now!';
-        if (percentage >= 60) return 'Consider Applying';
+        if (safePercentage >= 80) return 'Apply Now!';
+        if (safePercentage >= 60) return 'Consider Applying';
         return 'Build Skills First';
     };
 
@@ -40,7 +43,7 @@ function MatchPercentageBadge({ percentage, size = 'large', showLabel = true }) 
             <div
                 className={`${getSizeClasses()} ${getMatchColor()} rounded-full flex flex-col items-center justify-center font-bold shadow-lg`}
             >
-                <div>{percentage}%</div>
+                <div>{safePercentage}%</div>
                 {size === 'large' && (
                     <div className="text-xs font-normal">Match</div>
                 )}

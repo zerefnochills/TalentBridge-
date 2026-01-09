@@ -53,7 +53,7 @@ router.get('/', protect, async (req, res) => {
             const user = await User.findById(req.user._id).populate('skills.skillId');
 
             const jobsWithMatch = jobs.map(job => {
-                const match = calculateSkillMatch(user.skills, job.requiredSkills);
+                const match = calculateSkillMatch(user.skills || [], job.requiredSkills || []);
                 return {
                     ...job.toObject(),
                     matchPercentage: match.matchPercentage
@@ -67,6 +67,36 @@ router.get('/', protect, async (req, res) => {
     } catch (error) {
         console.error('Get jobs error:', error);
         res.status(500).json({ message: 'Server error fetching jobs' });
+    }
+});
+
+// @route   GET /api/jobs/company
+// @desc    Get jobs posted by the logged in company
+// @access  Private (company only)
+router.get('/company', protect, authorize('company'), async (req, res) => {
+    try {
+        const jobs = await Job.find({ companyId: req.user._id })
+            .populate('requiredSkills.skillId', 'name category')
+            .sort({ createdAt: -1 });
+
+        // Add applicant count and avg match for each job
+        const jobsWithStats = jobs.map(job => {
+            const applicantCount = job.applications?.length || 0;
+            const avgMatch = applicantCount > 0
+                ? Math.round(job.applications.reduce((sum, app) => sum + (app.skillMatchPercentage || 0), 0) / applicantCount)
+                : 0;
+
+            return {
+                ...job.toObject(),
+                applicantCount,
+                avgMatchPercentage: avgMatch
+            };
+        });
+
+        res.json({ jobs: jobsWithStats });
+    } catch (error) {
+        console.error('Get company jobs error:', error);
+        res.status(500).json({ message: 'Server error fetching company jobs' });
     }
 });
 
@@ -86,7 +116,7 @@ router.get('/:id', protect, async (req, res) => {
         // If student, calculate their match
         if (req.user.role === 'student') {
             const user = await User.findById(req.user._id).populate('skills.skillId');
-            const match = calculateSkillMatch(user.skills, job.requiredSkills);
+            const match = calculateSkillMatch(user?.skills || [], job.requiredSkills || []);
 
             return res.json({
                 job,

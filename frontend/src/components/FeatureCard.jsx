@@ -11,7 +11,7 @@ const FeatureCard = ({
 }) => {
     const CardContent = () => (
         <>
-            <div className="text-5xl mb-4 transform transition-transform duration-300 group-hover:scale-110 group-hover:-translate-y-1">
+            <div className="text-2xl font-black text-primary-400 mb-4 transform transition-transform duration-300 group-hover:scale-110 group-hover:-translate-y-1">
                 {icon}
             </div>
             <h3 className="text-lg font-semibold text-text-main mb-2">{title}</h3>

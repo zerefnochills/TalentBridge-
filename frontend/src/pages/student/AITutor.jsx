@@ -29,8 +29,10 @@ function AITutor() {
 
             if (recommendations && recommendations.length > 0) {
                 const topRole = recommendations[0];
-                const gapRes = await api.post('/analysis/gap', { roleId: topRole.role._id });
-                setGapAnalysis(gapRes.data);
+                if (topRole.role?._id) {
+                    const gapRes = await api.post('/analysis/gap', { roleId: topRole.role._id });
+                    setGapAnalysis(gapRes.data);
+                }
             }
         } catch (error) {
             console.error('Error loading skill gaps:', error);

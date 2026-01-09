@@ -17,17 +17,24 @@ import Jobs from "./pages/student/Jobs";
 import JobDetails from "./pages/student/JobDetails";
 import AITutor from "./pages/student/AITutor";
 import Navigator from "./pages/student/Navigator";
+import Roadmap from "./pages/student/Roadmap";
+import StudentAnalytics from "./pages/student/Analytics";
+import InterviewPrep from "./pages/student/InterviewPrep";
+import StudentProfile from "./pages/student/Profile";
 
 // Company Pages
 import CompanyDashboard from "./pages/company/Dashboard";
 import CreateJob from "./pages/company/CreateJob";
 import Candidates from "./pages/company/Candidates";
 import TeamRisk from "./pages/company/TeamRisk";
-import Analytics from "./pages/company/Analytics";
+import CompanyAnalytics from "./pages/company/Analytics";
+import MentorDashboard from "./pages/company/MentorDashboard";
+import CompanyProfile from "./pages/company/Profile";
 
 // Components
 import SCI from "./components/SCI";
 import AppLayout from "./components/AppLayout";
+import ErrorBoundary from "./components/ErrorBoundary";
 
 /* =======================
    Protected Route with Layout
@@ -54,7 +61,11 @@ const ProtectedRoute = ({ children, requiredRole }) => {
     );
   }
 
-  return <AppLayout>{children}</AppLayout>;
+  return (
+    <ErrorBoundary>
+      <AppLayout>{children}</AppLayout>
+    </ErrorBoundary>
+  );
 };
 
 /* =======================
@@ -126,7 +137,7 @@ function AppRoutes() {
         }
       />
       <Route
-        path="/student/career-path"
+        path="/student/career"
         element={
           <ProtectedRoute requiredRole="student">
             <CareerPath />
@@ -162,6 +173,38 @@ function AppRoutes() {
         element={
           <ProtectedRoute requiredRole="student">
             <Navigator />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/student/roadmap"
+        element={
+          <ProtectedRoute requiredRole="student">
+            <Roadmap />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/student/analytics"
+        element={
+          <ProtectedRoute requiredRole="student">
+            <StudentAnalytics />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/student/interview-prep"
+        element={
+          <ProtectedRoute requiredRole="student">
+            <InterviewPrep />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/student/profile"
+        element={
+          <ProtectedRoute requiredRole="student">
+            <StudentProfile />
           </ProtectedRoute>
         }
       />
@@ -216,8 +259,39 @@ function AppRoutes() {
         path="/company/analytics"
         element={
           <ProtectedRoute requiredRole="company">
-            <Analytics />
+            <CompanyAnalytics />
           </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/company/mentor"
+        element={
+          <ProtectedRoute requiredRole="company">
+            <MentorDashboard />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/company/profile"
+        element={
+          <ProtectedRoute requiredRole="company">
+            <CompanyProfile />
+          </ProtectedRoute>
+        }
+      />
+
+      {/* Catch-all route for unmatched paths */}
+      <Route
+        path="*"
+        element={
+          user ? (
+            <Navigate
+              to={user.role === "student" ? "/student/dashboard" : "/company/dashboard"}
+              replace
+            />
+          ) : (
+            <Navigate to="/login" replace />
+          )
         }
       />
     </Routes>

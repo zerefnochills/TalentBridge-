@@ -49,7 +49,7 @@ function StudentDashboard() {
             {/* Hero Section */}
             <div className="hero">
                 <div className="welcome-msg">
-                    <h1>👋 Welcome back, {user?.profile?.name || 'Student'}</h1>
+                    <h1>Welcome back, {user?.profile?.name || 'Student'}</h1>
                     <p>Your current skill readiness for Software Roles: {readinessPercent}%</p>
                 </div>
 
@@ -106,28 +106,28 @@ function StudentDashboard() {
                 {/* Feature Cards - Spans 5 columns */}
                 <div className="col-span-12 lg:col-span-5 grid grid-cols-2 gap-4">
                     <FeatureCard
-                        icon="🤖"
+                        icon="AI"
                         title="AI Tutor"
                         description="Get personalized learning recommendations"
                         linkTo="/student/ai-tutor"
                         buttonText="Start Learning"
                     />
                     <FeatureCard
-                        icon="🗺️"
+                        icon="MAP"
                         title="Roadmap"
                         description="Follow a step-by-step learning path"
-                        linkTo="/student/navigator"
+                        linkTo="/student/roadmap"
                         buttonText="View Roadmap"
                     />
                     <FeatureCard
-                        icon="🚀"
+                        icon="PATH"
                         title="Career Path"
                         description="Plan and visualize your career progress"
                         linkTo="/student/career"
                         buttonText="Explore"
                     />
                     <FeatureCard
-                        icon="💼"
+                        icon="JOBS"
                         title="Find Jobs"
                         description="Discover jobs matching your skills"
                         linkTo="/student/jobs"
@@ -138,7 +138,7 @@ function StudentDashboard() {
                 {/* Gap Analysis - Full Width */}
                 <div className="card col-span-12 flex flex-col lg:flex-row justify-between items-center gap-6">
                     <div className="flex items-center gap-6">
-                        <div className="text-5xl">📈</div>
+                        <div className="text-3xl font-black text-primary-400">GAP</div>
                         <div>
                             <h2 className="text-xl font-bold text-text-main mb-2">Skill Gap Analysis</h2>
                             <p className="text-text-muted text-sm mb-3">Identify and address missing key skills</p>
@@ -162,7 +162,7 @@ function StudentDashboard() {
                 {/* Skill Freshness - Full Width */}
                 <div className="card col-span-12 flex flex-col lg:flex-row justify-between items-center gap-6">
                     <div className="flex items-center gap-6 flex-1">
-                        <div className="text-5xl">⏱️</div>
+                        <div className="text-3xl font-black text-primary-400">FRESH</div>
                         <div className="flex-1">
                             <h2 className="text-xl font-bold text-text-main mb-2">Skill Freshness & Decay</h2>
                             <p className="text-text-muted text-sm mb-4">Skills decay when not practiced regularly</p>
@@ -229,7 +229,7 @@ function StudentDashboard() {
                         </div>
                     ) : skills.length === 0 ? (
                         <div className="empty-state">
-                            <div className="text-6xl mb-4">🎯</div>
+                            <div className="text-4xl font-black text-text-muted mb-4">+</div>
                             <p className="text-text-muted mb-4">No skills added yet</p>
                             <Link to="/student/skills" className="btn btn-primary">
                                 Add Your First Skill
@@ -261,14 +261,14 @@ function StudentDashboard() {
                                         <div className="progress-bar h-1.5">
                                             <div
                                                 className={`h-full rounded-full ${skill.freshnessScore >= 70 ? 'bg-success' :
-                                                        skill.freshnessScore >= 40 ? 'bg-warning' : 'bg-danger'
+                                                    skill.freshnessScore >= 40 ? 'bg-warning' : 'bg-danger'
                                                     }`}
                                                 style={{ width: `${skill.freshnessScore || 0}%` }}
                                             />
                                         </div>
                                     </div>
 
-                                    {needsReassessment(skill) && (
+                                    {needsReassessment(skill) && skill.skillId?._id && (
                                         <Link
                                             to={`/student/assessment/${skill.skillId._id}`}
                                             className="mt-3 inline-flex items-center gap-2 text-sm text-primary-400 hover:text-primary-300 font-semibold"
@@ -294,7 +294,7 @@ function StudentDashboard() {
                 {/* SCI Info Box */}
                 <div className="card col-span-12">
                     <div className="flex items-start gap-4">
-                        <div className="text-4xl">ℹ️</div>
+                        <div className="text-3xl font-black text-primary-400">i</div>
                         <div>
                             <h3 className="font-bold text-text-main mb-2">About Skill Confidence Index (SCI)</h3>
                             <p className="text-sm text-text-muted mb-4">
@@ -315,7 +315,7 @@ function StudentDashboard() {
                                 </div>
                             </div>
                             <p className="text-xs text-primary-400 mt-4 font-semibold">
-                                💡 Take assessments regularly to keep your SCI up to date!
+                                Take assessments regularly to keep your SCI up to date!
                             </p>
                         </div>
                     </div>

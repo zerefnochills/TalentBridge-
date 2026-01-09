@@ -38,12 +38,12 @@ function CareerPath() {
     };
 
     const renderProgressionNode = (node, level = 0) => {
-        if (!node) return null;
+        if (!node || !node.role) return null;
 
         const isCurrentRole = level === 0;
 
         return (
-            <div key={node.role._id} className="mb-8">
+            <div key={node.role._id || `node-${level}`} className="mb-8">
                 <div className={`relative ${level > 0 ? 'ml-12' : ''}`}>
                     {/* Connection Line */}
                     {level > 0 && (
@@ -149,8 +149,8 @@ function CareerPath() {
                                         key={role._id}
                                         onClick={() => loadCareerPath(role._id)}
                                         className={`w-full text-left p-3 rounded-xl border transition-all duration-200 ${selectedRole === role._id
-                                                ? 'border-primary-500 bg-primary-500/20 text-text-main'
-                                                : 'border-white/10 hover:border-primary-500/50 hover:bg-white/5 text-text-muted'
+                                            ? 'border-primary-500 bg-primary-500/20 text-text-main'
+                                            : 'border-white/10 hover:border-primary-500/50 hover:bg-white/5 text-text-muted'
                                             }`}
                                     >
                                         <div className="font-medium text-text-main">{role.title}</div>

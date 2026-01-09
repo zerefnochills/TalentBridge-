@@ -62,7 +62,7 @@ function SkillManagement() {
     };
 
     const filteredAvailableSkills = availableSkills.filter(skill =>
-        !userSkills.find(us => us.skillId._id === skill._id) &&
+        !userSkills.find(us => us.skillId?._id === skill._id) &&
         skill.name.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
@@ -108,13 +108,13 @@ function SkillManagement() {
 
                                     <div className="flex gap-2 mt-3">
                                         <Link
-                                            to={`/student/assessment/${userSkill.skillId._id}`}
+                                            to={`/student/assessment/${userSkill.skillId?._id}`}
                                             className="btn btn-primary text-sm flex-1 text-center justify-center py-2"
                                         >
                                             Take Assessment
                                         </Link>
                                         <button
-                                            onClick={() => removeSkill(userSkill.skillId._id)}
+                                            onClick={() => removeSkill(userSkill.skillId?._id)}
                                             className="px-3 py-1 bg-danger/20 text-danger rounded-lg hover:bg-danger/30 text-sm font-medium"
                                         >
                                             Remove

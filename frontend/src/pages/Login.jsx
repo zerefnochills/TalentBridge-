@@ -17,13 +17,18 @@ function Login() {
 
         try {
             const data = await login(email, password);
-            // Redirect based on role
+            console.log('Login successful, user role:', data.user.role);
+            // Redirect based on role with replace to prevent back navigation
             if (data.user.role === 'student') {
-                navigate('/student/dashboard');
+                navigate('/student/dashboard', { replace: true });
+            } else if (data.user.role === 'company') {
+                navigate('/company/dashboard', { replace: true });
             } else {
-                navigate('/company/dashboard');
+                console.error('Unknown user role:', data.user.role);
+                setError('Invalid user role. Please contact support.');
             }
         } catch (err) {
+            console.error('Login error:', err);
             setError(err.response?.data?.message || 'Login failed. Please try again.');
         } finally {
             setLoading(false);

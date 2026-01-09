@@ -24,7 +24,10 @@ function analyzeSkillGap(userSkills, roleRequiredSkills) {
     // Create a map of user skills by skillId for quick lookup
     const userSkillMap = new Map();
     userSkills.forEach(skill => {
-        userSkillMap.set(skill.skillId.toString(), skill);
+        if (skill.skillId) {
+            const skillIdStr = skill.skillId._id ? skill.skillId._id.toString() : skill.skillId.toString();
+            userSkillMap.set(skillIdStr, skill);
+        }
     });
 
     let totalRequiredSkills = roleRequiredSkills.length;

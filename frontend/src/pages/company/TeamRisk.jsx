@@ -30,16 +30,16 @@ function TeamRisk() {
     };
 
     const getRiskLevel = (coverage) => {
-        if (coverage >= 80) return { level: 'Low Risk', icon: '✅' };
-        if (coverage >= 60) return { level: 'Medium Risk', icon: '⚠️' };
-        return { level: 'High Risk', icon: '🚨' };
+        if (coverage >= 80) return { level: 'Low Risk', icon: 'OK' };
+        if (coverage >= 60) return { level: 'Medium Risk', icon: 'WARN' };
+        return { level: 'High Risk', icon: 'ALERT' };
     };
 
     return (
         <div className="container">
             {/* Page Header */}
             <div className="mb-8 text-center">
-                <h1 className="text-3xl font-bold text-text-main mb-2">⚠️ Team Risk Meter</h1>
+                <h1 className="text-3xl font-bold text-text-main mb-2">Team Risk Meter</h1>
                 <p className="text-text-muted">
                     Identify critical skill gaps and reduce project delivery risks.
                 </p>
@@ -52,7 +52,7 @@ function TeamRisk() {
             ) : !riskData ? (
                 <div className="card">
                     <div className="text-center py-8">
-                        <div className="text-5xl mb-4">📊</div>
+                        <div className="text-4xl font-black text-text-muted mb-4">RISK</div>
                         <p className="text-text-muted mb-4">
                             No team data available yet. Hire candidates to see team risk analysis.
                         </p>
@@ -72,7 +72,7 @@ function TeamRisk() {
                             </div>
                         </div>
                         <div className="inline-block px-6 py-3 rounded-2xl border-2 bg-warning/20 text-warning border-warning/50 font-bold">
-                            ⚠️ Medium Risk
+                            Medium Risk
                         </div>
                         <p className="text-sm text-text-muted mt-4 max-w-md mx-auto">
                             Based on average skill coverage across all critical competencies
@@ -96,7 +96,7 @@ function TeamRisk() {
                                     <div key={idx} className="bg-white/5 border border-white/10 rounded-xl p-4">
                                         <div className="flex items-center justify-between mb-2">
                                             <div className="flex items-center gap-3">
-                                                <span className="text-lg">{risk.icon}</span>
+                                                <span className="text-xs font-bold text-text-muted">{risk.icon}</span>
                                                 <div>
                                                     <h4 className="font-semibold text-text-main">{item.skill}</h4>
                                                     <p className="text-xs text-text-muted">
@@ -125,7 +125,7 @@ function TeamRisk() {
 
                     {/* Critical Gaps */}
                     <div className="card border-danger/30 bg-danger/10">
-                        <h3 className="text-lg font-semibold text-danger mb-3">🚨 Critical Skill Gaps</h3>
+                        <h3 className="text-lg font-semibold text-danger mb-3">Critical Skill Gaps</h3>
                         <p className="text-sm text-text-muted mb-4">
                             These skills have low coverage and may pose a risk to project delivery:
                         </p>
@@ -134,7 +134,7 @@ function TeamRisk() {
                                 <div className="flex justify-between items-center">
                                     <span className="font-medium text-text-main">AWS (30% coverage)</span>
                                     <Link to="/company/create-job" className="text-xs text-primary-400 hover:text-primary-300">
-                                        Post Job →
+                                        Post Job
                                     </Link>
                                 </div>
                                 <p className="text-xs text-text-muted mt-1">
@@ -145,7 +145,7 @@ function TeamRisk() {
                                 <div className="flex justify-between items-center">
                                     <span className="font-medium text-text-main">Python (40% coverage)</span>
                                     <Link to="/company/create-job" className="text-xs text-primary-400 hover:text-primary-300">
-                                        Post Job →
+                                        Post Job
                                     </Link>
                                 </div>
                                 <p className="text-xs text-text-muted mt-1">
@@ -157,7 +157,7 @@ function TeamRisk() {
 
                     {/* Recommendations */}
                     <div className="card border-primary-500/30 bg-primary-500/10">
-                        <h3 className="text-lg font-semibold text-primary-400 mb-3">💡 Recommendations</h3>
+                        <h3 className="text-lg font-semibold text-primary-400 mb-3">Recommendations</h3>
                         <ul className="space-y-2 text-sm text-text-muted">
                             <li className="flex items-start">
                                 <span className="mr-2">1.</span>
@@ -183,15 +183,15 @@ function TeamRisk() {
             {/* Info Box */}
             <div className="mt-8 card border-white/10">
                 <div className="flex items-start gap-4">
-                    <div className="text-3xl">📊</div>
+                    <div className="text-2xl font-black text-primary-400">i</div>
                     <div>
                         <h3 className="font-bold text-text-main mb-2">How Team Risk Works</h3>
                         <ul className="text-sm text-text-muted space-y-1">
-                            <li>• Risk is calculated based on team skill coverage and redundancy</li>
-                            <li>• High risk (red): Critical skills with &lt;60% coverage</li>
-                            <li>• Medium risk (yellow): Skills with 60-80% coverage</li>
-                            <li>• Low risk (green): Well-covered skills with 80%+ coverage</li>
-                            <li>• Hire candidates or train existing team to reduce risk</li>
+                            <li>- Risk is calculated based on team skill coverage and redundancy</li>
+                            <li>- High risk (red): Critical skills with less than 60% coverage</li>
+                            <li>- Medium risk (yellow): Skills with 60-80% coverage</li>
+                            <li>- Low risk (green): Well-covered skills with 80%+ coverage</li>
+                            <li>- Hire candidates or train existing team to reduce risk</li>
                         </ul>
                     </div>
                 </div>

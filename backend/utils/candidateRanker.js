@@ -18,11 +18,13 @@ function calculateSkillMatch(candidateSkills, jobRequiredSkills) {
     // Create skill lookup map
     const candidateSkillMap = new Map();
     candidateSkills.forEach(skill => {
+        if (!skill.skillId) return; // Skip if skillId is undefined
         const skillId = skill.skillId._id ? skill.skillId._id.toString() : skill.skillId.toString();
         candidateSkillMap.set(skillId, skill);
     });
 
     jobRequiredSkills.forEach(reqSkill => {
+        if (!reqSkill.skillId) return; // Skip if skillId is undefined
         const skillId = reqSkill.skillId._id ? reqSkill.skillId._id.toString() : reqSkill.skillId.toString();
         const importance = reqSkill.importance || 3;
         const minSCI = reqSkill.minSCI || 50;

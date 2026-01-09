@@ -52,7 +52,7 @@ function Candidates() {
                 </div>
             ) : candidates.length === 0 ? (
                 <div className="card text-center py-12">
-                    <div className="text-5xl mb-4">👥</div>
+                    <div className="text-4xl font-black text-text-muted mb-4">0</div>
                     <p className="text-text-muted mb-2">No applications yet</p>
                     <p className="text-sm text-text-muted">Candidates will appear here when they apply</p>
                 </div>
@@ -84,13 +84,13 @@ function Candidates() {
                                     {/* Skills Summary */}
                                     <div className="flex gap-4 text-sm mb-3">
                                         <span className="text-success">
-                                            ✓ {candidate.skillBreakdown?.filter(s => s.status === 'meets').length || 0} skills met
+                                            {candidate.skillBreakdown?.filter(s => s.status === 'meets').length || 0} skills met
                                         </span>
                                         <span className="text-warning">
-                                            ⚠ {candidate.skillBreakdown?.filter(s => s.status === 'below').length || 0} below threshold
+                                            {candidate.skillBreakdown?.filter(s => s.status === 'below').length || 0} below threshold
                                         </span>
                                         <span className="text-danger">
-                                            ✗ {candidate.skillBreakdown?.filter(s => s.status === 'missing').length || 0} missing
+                                            {candidate.skillBreakdown?.filter(s => s.status === 'missing').length || 0} missing
                                         </span>
                                     </div>
 
@@ -123,14 +123,14 @@ function Candidates() {
             {/* Info Box */}
             <div className="mt-8 card border-primary-500/30 bg-primary-500/10">
                 <div className="flex items-start gap-4">
-                    <div className="text-3xl">💡</div>
+                    <div className="text-2xl font-black text-primary-400">i</div>
                     <div>
                         <h3 className="font-bold text-primary-400 mb-2">How Ranking Works</h3>
                         <ul className="text-sm text-text-muted space-y-1">
-                            <li>• Candidates are ranked by skill match percentage</li>
-                            <li>• Match % is calculated from verified SCI scores</li>
-                            <li>• Skill importance weights affect the ranking</li>
-                            <li>• All rankings are transparent and explainable</li>
+                            <li>- Candidates are ranked by skill match percentage</li>
+                            <li>- Match % is calculated from verified SCI scores</li>
+                            <li>- Skill importance weights affect the ranking</li>
+                            <li>- All rankings are transparent and explainable</li>
                         </ul>
                     </div>
                 </div>

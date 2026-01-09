@@ -1,0 +1,196 @@
+[
+    {
+        "id": "python-basics",
+        "data": {
+            "label": "Python Programming"
+        },
+        "position": {
+            "x": 250,
+            "y": 0
+        },
+        "topicId": "python-basics",
+        "style": {
+            "background": "#3b82f6",
+            "color": "#fff",
+            "fontWeight": "bold",
+            "borderRadius": "12px",
+            "padding": "12px 16px",
+            "border": "2px solid #2563eb",
+            "fontSize": "14px"
+        }
+    },
+    {
+        "id": "math-stats",
+        "data": {
+            "label": "Math & Statistics"
+        },
+        "position": {
+            "x": 250,
+            "y": 100
+        },
+        "topicId": "math-stats",
+        "style": {
+            "background": "#8b5cf6",
+            "color": "#fff",
+            "borderRadius": "12px",
+            "padding": "12px 16px",
+            "border": "1px solid #7c3aed",
+            "fontSize": "14px"
+        }
+    },
+    {
+        "id": "data-analysis",
+        "data": {
+            "label": "Data Analysis (Pandas)"
+        },
+        "position": {
+            "x": 250,
+            "y": 200
+        },
+        "topicId": "data-analysis",
+        "style": {
+            "background": "#06b6d4",
+            "color": "#fff",
+            "borderRadius": "12px",
+            "padding": "12px 16px",
+            "border": "1px solid #0891b2",
+            "fontSize": "14px"
+        }
+    },
+    {
+        "id": "visualization",
+        "data": {
+            "label": "Data Visualization"
+        },
+        "position": {
+            "x": 250,
+            "y": 300
+        },
+        "topicId": "visualization",
+        "style": {
+            "background": "#22c55e",
+            "color": "#fff",
+            "borderRadius": "12px",
+            "padding": "12px 16px",
+            "border": "1px solid #16a34a",
+            "fontSize": "14px"
+        }
+    },
+    {
+        "id": "ml-basics",
+        "data": {
+            "label": "Machine Learning Basics"
+        },
+        "position": {
+            "x": 250,
+            "y": 400
+        },
+        "topicId": "ml-basics",
+        "style": {
+            "background": "#f97316",
+            "color": "#fff",
+            "borderRadius": "12px",
+            "padding": "12px 16px",
+            "border": "1px solid #ea580c",
+            "fontSize": "14px"
+        }
+    },
+    {
+        "id": "deep-learning",
+        "data": {
+            "label": "Deep Learning"
+        },
+        "position": {
+            "x": 250,
+            "y": 500
+        },
+        "topicId": "deep-learning",
+        "style": {
+            "background": "#ec4899",
+            "color": "#fff",
+            "borderRadius": "12px",
+            "padding": "12px 16px",
+            "border": "1px solid #db2777",
+            "fontSize": "14px"
+        }
+    },
+    {
+        "id": "mlops",
+        "data": {
+            "label": "MLOps & Deployment"
+        },
+        "position": {
+            "x": 250,
+            "y": 600
+        },
+        "topicId": "mlops",
+        "style": {
+            "background": "#14b8a6",
+            "color": "#fff",
+            "borderRadius": "12px",
+            "padding": "12px 16px",
+            "border": "1px solid #0d9488",
+            "fontSize": "14px"
+        }
+    },
+    {
+        "id": "e1-2",
+        "source": "python-basics",
+        "target": "math-stats",
+        "animated": true,
+        "style": {
+            "stroke": "#3b82f6",
+            "strokeWidth": 2
+        }
+    },
+    {
+        "id": "e2-3",
+        "source": "math-stats",
+        "target": "data-analysis",
+        "animated": true,
+        "style": {
+            "stroke": "#8b5cf6",
+            "strokeWidth": 2
+        }
+    },
+    {
+        "id": "e3-4",
+        "source": "data-analysis",
+        "target": "visualization",
+        "animated": true,
+        "style": {
+            "stroke": "#06b6d4",
+            "strokeWidth": 2
+        }
+    },
+    {
+        "id": "e4-5",
+        "source": "visualization",
+        "target": "ml-basics",
+        "animated": true,
+        "style": {
+            "stroke": "#22c55e",
+            "strokeWidth": 2
+        }
+    },
+    {
+        "id": "e5-6",
+        "source": "ml-basics",
+        "target": "deep-learning",
+        "animated": true,
+        "style": {
+            "stroke": "#f97316",
+            "strokeWidth": 2
+        }
+    },
+    {
+        "id": "e6-7",
+        "source": "deep-learning",
+        "target": "mlops",
+        "animated": true,
+        "style": {
+            "stroke": "#ec4899",
+            "strokeWidth": 2
+        }
+    }
+]

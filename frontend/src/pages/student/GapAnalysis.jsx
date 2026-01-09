@@ -80,8 +80,8 @@ function GapAnalysis() {
                                         key={role._id}
                                         onClick={() => analyzeGap(role._id)}
                                         className={`w-full text-left p-3 rounded-xl border transition-all duration-200 ${selectedRole === role._id
-                                                ? 'border-primary-500 bg-primary-500/20 text-text-main'
-                                                : 'border-white/10 hover:border-primary-500/50 hover:bg-white/5 text-text-muted'
+                                            ? 'border-primary-500 bg-primary-500/20 text-text-main'
+                                            : 'border-white/10 hover:border-primary-500/50 hover:bg-white/5 text-text-muted'
                                             }`}
                                     >
                                         <div className="font-medium text-text-main">{role.title}</div>
@@ -109,11 +109,11 @@ function GapAnalysis() {
                             {/* Overall Readiness */}
                             <div className="card">
                                 <div className="text-center mb-6">
-                                    <h3 className="text-xl font-bold text-text-main mb-2">{gapAnalysis.role?.title}</h3>
-                                    <div className={`text-6xl font-black ${getReadinessColor(gapAnalysis.matchPercentage)}`}>
-                                        {gapAnalysis.matchPercentage}%
+                                    <h3 className="text-xl font-bold text-text-main mb-2">{gapAnalysis.role?.title || 'Unknown Role'}</h3>
+                                    <div className={`text-6xl font-black ${getReadinessColor(gapAnalysis.matchPercentage || 0)}`}>
+                                        {gapAnalysis.matchPercentage || 0}%
                                     </div>
-                                    <p className="text-text-muted mt-2">{getReadinessText(gapAnalysis.matchPercentage)}</p>
+                                    <p className="text-text-muted mt-2">{getReadinessText(gapAnalysis.matchPercentage || 0)}</p>
                                 </div>
 
                                 <div className="grid grid-cols-3 gap-4 pt-4 border-t border-white/10">
@@ -140,7 +140,7 @@ function GapAnalysis() {
 
                             {/* Detailed Breakdown */}
                             <div className="card">
-                                <SkillMatchBreakdown skillBreakdown={gapAnalysis.skillBreakdown} />
+                                <SkillMatchBreakdown skillBreakdown={gapAnalysis.skillBreakdown || []} />
                             </div>
 
                             {/* Recommendations */}

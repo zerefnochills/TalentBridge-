@@ -55,7 +55,8 @@ function Register() {
                 };
 
             await register(formData.email, formData.password, formData.role, profile);
-            navigate(formData.role === 'student' ? '/student/dashboard' : '/company/dashboard');
+            console.log('Registration successful, redirecting to dashboard');
+            navigate(formData.role === 'student' ? '/student/dashboard' : '/company/dashboard', { replace: true });
         } catch (err) {
             if (err.isNetworkError) {
                 setError('Cannot connect to server. Please ensure the backend is running.');

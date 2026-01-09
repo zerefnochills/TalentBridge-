@@ -112,7 +112,7 @@ function JobDetails() {
                     {matchAnalysis && (
                         <div className="card">
                             <h3 className="text-2xl font-bold text-text-main mb-4">Your Skill Match Analysis</h3>
-                            <SkillMatchBreakdown skillBreakdown={matchAnalysis.skillBreakdown} />
+                            <SkillMatchBreakdown skillBreakdown={matchAnalysis.skillBreakdown || []} />
                         </div>
                     )}
                 </div>
@@ -196,25 +196,25 @@ function JobDetails() {
                                     <div className="flex justify-between">
                                         <span className="text-text-muted">Total Skills:</span>
                                         <span className="font-medium text-text-main">
-                                            {matchAnalysis.skillBreakdown.length}
+                                            {matchAnalysis.skillBreakdown?.length || 0}
                                         </span>
                                     </div>
                                     <div className="flex justify-between">
                                         <span className="text-success">✓ Meets Requirements:</span>
                                         <span className="font-medium text-text-main">
-                                            {matchAnalysis.skillBreakdown.filter(s => s.status === 'meets').length}
+                                            {matchAnalysis.skillBreakdown?.filter(s => s.status === 'meets').length || 0}
                                         </span>
                                     </div>
                                     <div className="flex justify-between">
                                         <span className="text-warning">⚠ Below Threshold:</span>
                                         <span className="font-medium text-text-main">
-                                            {matchAnalysis.skillBreakdown.filter(s => s.status === 'below').length}
+                                            {matchAnalysis.skillBreakdown?.filter(s => s.status === 'below').length || 0}
                                         </span>
                                     </div>
                                     <div className="flex justify-between">
                                         <span className="text-danger">✗ Missing:</span>
                                         <span className="font-medium text-text-main">
-                                            {matchAnalysis.skillBreakdown.filter(s => s.status === 'missing').length}
+                                            {matchAnalysis.skillBreakdown?.filter(s => s.status === 'missing').length || 0}
                                         </span>
                                     </div>
                                 </div>

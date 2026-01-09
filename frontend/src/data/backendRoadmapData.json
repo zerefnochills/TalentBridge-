@@ -1,0 +1,196 @@
+[
+    {
+        "id": "intro",
+        "data": {
+            "label": "Introduction to Backend"
+        },
+        "position": {
+            "x": 250,
+            "y": 0
+        },
+        "topicId": "intro",
+        "style": {
+            "background": "#6366f1",
+            "color": "#fff",
+            "fontWeight": "bold",
+            "borderRadius": "12px",
+            "padding": "12px 16px",
+            "border": "2px solid #4f46e5",
+            "fontSize": "14px"
+        }
+    },
+    {
+        "id": "languages",
+        "data": {
+            "label": "Programming Languages"
+        },
+        "position": {
+            "x": 250,
+            "y": 100
+        },
+        "topicId": "languages",
+        "style": {
+            "background": "#8b5cf6",
+            "color": "#fff",
+            "borderRadius": "12px",
+            "padding": "12px 16px",
+            "border": "1px solid #7c3aed",
+            "fontSize": "14px"
+        }
+    },
+    {
+        "id": "frameworks",
+        "data": {
+            "label": "Backend Frameworks"
+        },
+        "position": {
+            "x": 250,
+            "y": 200
+        },
+        "topicId": "frameworks",
+        "style": {
+            "background": "#a855f7",
+            "color": "#fff",
+            "borderRadius": "12px",
+            "padding": "12px 16px",
+            "border": "1px solid #9333ea",
+            "fontSize": "14px"
+        }
+    },
+    {
+        "id": "databases",
+        "data": {
+            "label": "Databases"
+        },
+        "position": {
+            "x": 250,
+            "y": 300
+        },
+        "topicId": "databases",
+        "style": {
+            "background": "#d946ef",
+            "color": "#fff",
+            "borderRadius": "12px",
+            "padding": "12px 16px",
+            "border": "1px solid #c026d3",
+            "fontSize": "14px"
+        }
+    },
+    {
+        "id": "apis",
+        "data": {
+            "label": "APIs & Authentication"
+        },
+        "position": {
+            "x": 250,
+            "y": 400
+        },
+        "topicId": "apis",
+        "style": {
+            "background": "#ec4899",
+            "color": "#fff",
+            "borderRadius": "12px",
+            "padding": "12px 16px",
+            "border": "1px solid #db2777",
+            "fontSize": "14px"
+        }
+    },
+    {
+        "id": "system-design",
+        "data": {
+            "label": "System Design Basics"
+        },
+        "position": {
+            "x": 250,
+            "y": 500
+        },
+        "topicId": "system-design",
+        "style": {
+            "background": "#f43f5e",
+            "color": "#fff",
+            "borderRadius": "12px",
+            "padding": "12px 16px",
+            "border": "1px solid #e11d48",
+            "fontSize": "14px"
+        }
+    },
+    {
+        "id": "devops",
+        "data": {
+            "label": "Deployment & DevOps"
+        },
+        "position": {
+            "x": 250,
+            "y": 600
+        },
+        "topicId": "devops",
+        "style": {
+            "background": "#10b981",
+            "color": "#fff",
+            "borderRadius": "12px",
+            "padding": "12px 16px",
+            "border": "1px solid #059669",
+            "fontSize": "14px"
+        }
+    },
+    {
+        "id": "e1-2",
+        "source": "intro",
+        "target": "languages",
+        "animated": true,
+        "style": {
+            "stroke": "#6366f1",
+            "strokeWidth": 2
+        }
+    },
+    {
+        "id": "e2-3",
+        "source": "languages",
+        "target": "frameworks",
+        "animated": true,
+        "style": {
+            "stroke": "#8b5cf6",
+            "strokeWidth": 2
+        }
+    },
+    {
+        "id": "e3-4",
+        "source": "frameworks",
+        "target": "databases",
+        "animated": true,
+        "style": {
+            "stroke": "#a855f7",
+            "strokeWidth": 2
+        }
+    },
+    {
+        "id": "e4-5",
+        "source": "databases",
+        "target": "apis",
+        "animated": true,
+        "style": {
+            "stroke": "#d946ef",
+            "strokeWidth": 2
+        }
+    },
+    {
+        "id": "e5-6",
+        "source": "apis",
+        "target": "system-design",
+        "animated": true,
+        "style": {
+            "stroke": "#ec4899",
+            "strokeWidth": 2
+        }
+    },
+    {
+        "id": "e6-7",
+        "source": "system-design",
+        "target": "devops",
+        "animated": true,
+        "style": {
+            "stroke": "#f43f5e",
+            "strokeWidth": 2
+        }
+    }
+]
