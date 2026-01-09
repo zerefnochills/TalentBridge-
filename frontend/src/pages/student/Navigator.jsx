@@ -15,6 +15,9 @@ function Navigator() {
     const [timeline, setTimeline] = useState('3 months');
     const [hoursPerWeek, setHoursPerWeek] = useState(10);
     const [constraints, setConstraints] = useState('');
+    const [currentLevel, setCurrentLevel] = useState('Beginner');
+    const [learningStyle, setLearningStyle] = useState('Video-based');
+    const [specificInterests, setSpecificInterests] = useState('');
 
     // Guidance state
     const [guidanceQuestion, setGuidanceQuestion] = useState('');
@@ -47,7 +50,10 @@ function Navigator() {
                 targetRole,
                 timeline,
                 hoursPerWeek,
-                constraints: constraints.split(',').map(c => c.trim()).filter(Boolean)
+                constraints: constraints.split(',').map(c => c.trim()).filter(Boolean),
+                currentLevel,
+                learningStyle,
+                specificInterests
             });
             setRoadmap(res.data.roadmap);
         } catch (error) {
@@ -203,6 +209,52 @@ function Navigator() {
                                             <option value={40}>40 hours (full-time)</option>
                                         </select>
                                     </div>
+                                </div>
+
+                                <div className="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <label className="block text-sm font-bold text-gray-700 mb-2">
+                                            📊 Current Level
+                                        </label>
+                                        <select
+                                            value={currentLevel}
+                                            onChange={(e) => setCurrentLevel(e.target.value)}
+                                            className="input-field w-full"
+                                        >
+                                            <option value="Beginner">Beginner (New to this)</option>
+                                            <option value="Intermediate">Intermediate (Some exp)</option>
+                                            <option value="Advanced">Advanced (Upskilling)</option>
+                                            <option value="Career Pivot">Career Pivot (Transferable skills)</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label className="block text-sm font-bold text-gray-700 mb-2">
+                                            🧠 Learning Style
+                                        </label>
+                                        <select
+                                            value={learningStyle}
+                                            onChange={(e) => setLearningStyle(e.target.value)}
+                                            className="input-field w-full"
+                                        >
+                                            <option value="Video-based">🎥 Video-based (Visual)</option>
+                                            <option value="Reading/Docs">📖 Reading/Docs (Text)</option>
+                                            <option value="Project-heavy">🛠️ Project-heavy (Hands-on)</option>
+                                            <option value="Mentor-guided">👥 Mentor-guided (Social)</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label className="block text-sm font-bold text-gray-700 mb-2">
+                                        ✨ Specific Interests / Focus (Optional)
+                                    </label>
+                                    <input
+                                        type="text"
+                                        value={specificInterests}
+                                        onChange={(e) => setSpecificInterests(e.target.value)}
+                                        placeholder="e.g., 'I prefer React over Vue', 'Want to work in Fintech', 'Love data viz'"
+                                        className="input-field w-full"
+                                    />
                                 </div>
 
                                 <div>

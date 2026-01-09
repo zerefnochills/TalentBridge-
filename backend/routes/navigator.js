@@ -38,7 +38,7 @@ try {
 const userRoadmaps = new Map();
 
 // Navigator System Prompt - Career Planner, NOT a tutor
-const NAVIGATOR_SYSTEM_PROMPT = `You are a Career Navigator for TalentBridge. You create actionable roadmaps, not educational content.
+const NAVIGATOR_SYSTEM_PROMPT = `You are a Career Navigator for TalentBridge. You create highly specific, actionable roadmaps tailored to the user's exact context.
 
 CRITICAL RULES:
 - You are NOT a tutor - don't explain concepts unless needed for decisions
@@ -46,6 +46,7 @@ CRITICAL RULES:
 - Be practical, concise, action-oriented
 - Suggest milestones and actions, NOT courses or lessons
 - Every response should move the user toward their goal
+- AVOID GENERIC ADVICE. If the user likes "video", suggest specific channels/courses. If they are "advanced", skip basics.
 
 OUTPUT STYLE:
 - Use phases: Foundation → Build → Apply
@@ -58,7 +59,11 @@ OUTPUT STYLE:
 // @access  Private (student only)
 router.post('/generate', protect, authorize('student'), async (req, res) => {
     try {
-        const { targetRole, timeline, constraints, educationLevel, availableHoursPerWeek } = req.body;
+        console.log('Navigator: Generating roadmap for user:', req.user._id);
+        console.log('Navigator: Request body:', req.body);
+
+        // Extract using frontend variable names
+        const { targetRole, timeline, constraints, educationLevel, hoursPerWeek, currentLevel, learningStyle, specificInterests } = req.body;
 
         if (!targetRole) {
             return res.status(400).json({ message: 'Target role is required' });
@@ -71,7 +76,7 @@ router.post('/generate', protect, authorize('student'), async (req, res) => {
         try {
             roleData = await Role.findOne({ title: new RegExp(targetRole, 'i') }).populate('requiredSkills.skillId');
         } catch (e) {
-            // Role not found, continue without it
+            console.log('Navigator: Role lookup failed (non-fatal):', e.message);
         }
 
         // Build user context
@@ -98,6 +103,7 @@ router.post('/generate', protect, authorize('student'), async (req, res) => {
         }
 
         if (!openai) {
+            console.log('Navigator: Using rule-based fallback');
             // Rule-based roadmap generation
             const roadmap = generateRuleBasedRoadmap(targetRole, timeline, userSkills, skillGaps, constraints);
             userRoadmaps.set(req.user._id.toString(), roadmap);
@@ -105,7 +111,20 @@ router.post('/generate', protect, authorize('student'), async (req, res) => {
         }
 
         // AI-powered roadmap generation
-        const prompt = buildRoadmapPrompt(targetRole, timeline, userSkills, skillGaps, constraints, educationLevel, availableHoursPerWeek);
+        const prompt = buildRoadmapPrompt(
+            targetRole,
+            timeline,
+            userSkills,
+            skillGaps,
+            constraints,
+            educationLevel,
+            hoursPerWeek, // Passed correctly now
+            currentLevel,
+            learningStyle,
+            specificInterests
+        );
+
+        console.log('Navigator: Sending prompt to AI model:', aiModel);
 
         const completion = await openai.chat.completions.create({
             model: aiModel,
@@ -118,6 +137,7 @@ router.post('/generate', protect, authorize('student'), async (req, res) => {
         });
 
         const aiResponse = completion.choices[0].message.content;
+        console.log('Navigator: Received AI response, length:', aiResponse.length);
 
         // Parse and structure the roadmap
         const roadmap = {
@@ -144,6 +164,9 @@ router.post('/generate', protect, authorize('student'), async (req, res) => {
 
     } catch (error) {
         console.error('Navigator generate error:', error);
+        if (error.response) {
+            console.error('Navigator AI Provider Error Data:', error.response.data);
+        }
         res.status(500).json({ message: 'Error generating roadmap', error: error.message });
     }
 });
@@ -257,16 +280,17 @@ router.post('/update-milestone', protect, authorize('student'), async (req, res)
 });
 
 // Helper: Build roadmap generation prompt
-function buildRoadmapPrompt(targetRole, timeline, userSkills, skillGaps, constraints, education, hoursPerWeek) {
+function buildRoadmapPrompt(targetRole, timeline, userSkills, skillGaps, constraints, education, hoursPerWeek, currentLevel, learningStyle, specificInterests) {
     let prompt = `Create a personalized career roadmap for this user:\n\n`;
 
     prompt += `**Goal:** Become a ${targetRole}\n`;
     prompt += `**Timeline:** ${timeline || '3 months'}\n`;
     prompt += `**Available time:** ${hoursPerWeek || 10} hours/week\n`;
 
-    if (education) {
-        prompt += `**Education:** ${education}\n`;
-    }
+    if (currentLevel) prompt += `**Current Level:** ${currentLevel}\n`;
+    if (learningStyle) prompt += `**Learning Style:** ${learningStyle} (Prioritize this style for resources)\n`;
+    if (specificInterests) prompt += `**Specific Interests/Focus:** ${specificInterests}\n`;
+    if (education) prompt += `**Education:** ${education}\n`;
 
     if (constraints && constraints.length > 0) {
         prompt += `**Constraints:** ${constraints.join(', ')}\n`;
@@ -297,10 +321,14 @@ function buildRoadmapPrompt(targetRole, timeline, userSkills, skillGaps, constra
 
 For each phase, include 2-3 specific milestones with:
 - Title (action-focused)
-- 2-3 practical actions
+- 2-3 practical actions (Reference specific tools/resources matching the user's learning style)
 - Progress signals (how they know they're done)
 
-Be specific, realistic, and action-oriented. No generic advice.`;
+IMPORTANT:
+- If user is "Advanced", skip "learn syntax" steps.
+- If "Video-based", suggest specific channels/playlists.
+- If "Project-heavy", suggest building specific things immediately.
+- tailor the advice to their specific interests (${specificInterests || "general"}).`;
 
     return prompt;
 }
