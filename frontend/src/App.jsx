@@ -27,15 +27,20 @@ import Analytics from "./pages/company/Analytics";
 
 // Components
 import SCI from "./components/SCI";
+import AppLayout from "./components/AppLayout";
 
 /* =======================
-   Protected Route
+   Protected Route with Layout
 ======================= */
 const ProtectedRoute = ({ children, requiredRole }) => {
   const { user, loading } = useAuth();
 
   if (loading) {
-    return <div className="min-h-screen flex items-center justify-center">Loading...</div>;
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-dark-main to-dark-secondary">
+        <div className="loading-spinner"></div>
+      </div>
+    );
   }
 
   if (!user) return <Navigate to="/login" replace />;
@@ -49,7 +54,7 @@ const ProtectedRoute = ({ children, requiredRole }) => {
     );
   }
 
-  return children;
+  return <AppLayout>{children}</AppLayout>;
 };
 
 /* =======================
@@ -226,9 +231,7 @@ function App() {
   return (
     <AuthProvider>
       <Router>
-        <div className="min-h-screen bg-gray-50">
-          <AppRoutes />
-        </div>
+        <AppRoutes />
       </Router>
     </AuthProvider>
   );

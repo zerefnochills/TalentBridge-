@@ -70,11 +70,11 @@ function Register() {
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center px-4 py-12 relative overflow-hidden">
-            {/* Animated Background */}
-            <div className="absolute inset-0 bg-gradient-to-br from-purple-50 via-blue-50 to-pink-50"></div>
-            <div className="absolute top-0 left-1/4 w-96 h-96 bg-blue-200/30 rounded-full blur-3xl animate-pulse-slow"></div>
-            <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-purple-200/30 rounded-full blur-3xl animate-pulse-slow delay-1000"></div>
+        <div className="min-h-screen flex items-center justify-center px-4 py-12 relative overflow-hidden bg-gradient-to-br from-dark-main to-dark-secondary">
+            {/* Animated Background Blobs */}
+            <div className="absolute top-0 left-1/4 w-96 h-96 bg-accent-blue/20 rounded-full blur-3xl animate-pulse-slow"></div>
+            <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-accent-purple/20 rounded-full blur-3xl animate-pulse-slow"></div>
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary-500/10 rounded-full blur-3xl"></div>
 
             <div className="max-w-3xl w-full relative z-10 animate-slide-up">
                 {/* Logo */}
@@ -84,15 +84,15 @@ function Register() {
                             TalentBridge
                         </div>
                     </Link>
-                    <p className="text-gray-600 font-medium">Join the Skill-First Revolution</p>
+                    <p className="text-text-muted font-medium">Join the Skill-First Revolution</p>
                 </div>
 
                 {/* Register Card */}
-                <div className="card-glass">
-                    <h2 className="text-3xl font-bold text-gradient mb-6 text-center">Create Account</h2>
+                <div className="card">
+                    <h2 className="text-3xl font-bold text-text-main mb-6 text-center">Create Account</h2>
 
                     {error && (
-                        <div className="bg-red-50 border-2 border-red-200 text-red-700 px-4 py-3 rounded-xl mb-6 animate-scale-in">
+                        <div className="bg-danger/20 border border-danger/50 text-danger px-4 py-3 rounded-xl mb-6 animate-scale-in">
                             <div className="flex items-center gap-2">
                                 <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                                     <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
@@ -105,14 +105,14 @@ function Register() {
                     <form onSubmit={handleSubmit} className="space-y-6">
                         {/* Role Selection */}
                         <div>
-                            <label className="block text-gray-700 font-bold mb-3">I am a:</label>
+                            <label className="block text-text-main font-bold mb-3">I am a:</label>
                             <div className="grid grid-cols-2 gap-4">
                                 <button
                                     type="button"
                                     onClick={() => setFormData({ ...formData, role: 'student' })}
                                     className={`relative overflow-hidden py-4 px-6 rounded-xl border-2 font-semibold transition-all duration-300 ${formData.role === 'student'
-                                            ? 'border-primary-600 bg-gradient-to-br from-primary-50 to-purple-50 text-primary-700 shadow-glow'
-                                            : 'border-gray-300 hover:border-primary-300 hover:shadow-md'
+                                        ? 'border-primary-500 bg-primary-500/20 text-text-main'
+                                        : 'border-white/10 hover:border-primary-500/50 text-text-muted'
                                         }`}
                                 >
                                     <div className="flex flex-col items-center gap-2">
@@ -124,8 +124,8 @@ function Register() {
                                     type="button"
                                     onClick={() => setFormData({ ...formData, role: 'company' })}
                                     className={`relative overflow-hidden py-4 px-6 rounded-xl border-2 font-semibold transition-all duration-300 ${formData.role === 'company'
-                                            ? 'border-primary-600 bg-gradient-to-br from-primary-50 to-purple-50 text-primary-700 shadow-glow'
-                                            : 'border-gray-300 hover:border-primary-300 hover:shadow-md'
+                                        ? 'border-primary-500 bg-primary-500/20 text-text-main'
+                                        : 'border-white/10 hover:border-primary-500/50 text-text-muted'
                                         }`}
                                 >
                                     <div className="flex flex-col items-center gap-2">
@@ -139,7 +139,7 @@ function Register() {
                         {/* Common Fields */}
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
-                                <label className="block text-gray-700 font-semibold mb-2">Full Name</label>
+                                <label className="block text-text-main font-semibold mb-2">Full Name</label>
                                 <input
                                     type="text"
                                     name="name"
@@ -151,7 +151,7 @@ function Register() {
                                 />
                             </div>
                             <div>
-                                <label className="block text-gray-700 font-semibold mb-2">Email Address</label>
+                                <label className="block text-text-main font-semibold mb-2">Email Address</label>
                                 <input
                                     type="email"
                                     name="email"
@@ -166,7 +166,7 @@ function Register() {
 
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
-                                <label className="block text-gray-700 font-semibold mb-2">Password</label>
+                                <label className="block text-text-main font-semibold mb-2">Password</label>
                                 <input
                                     type="password"
                                     name="password"
@@ -178,7 +178,7 @@ function Register() {
                                 />
                             </div>
                             <div>
-                                <label className="block text-gray-700 font-semibold mb-2">Confirm Password</label>
+                                <label className="block text-text-main font-semibold mb-2">Confirm Password</label>
                                 <input
                                     type="password"
                                     name="confirmPassword"
@@ -193,13 +193,13 @@ function Register() {
 
                         {/* Student-specific fields */}
                         {formData.role === 'student' && (
-                            <div className="space-y-4 p-5 bg-gradient-to-br from-blue-50/50 to-purple-50/50 rounded-xl border border-purple-100">
-                                <h3 className="font-bold text-primary-700 flex items-center gap-2">
+                            <div className="space-y-4 p-5 bg-primary-500/10 rounded-xl border border-primary-500/30">
+                                <h3 className="font-bold text-primary-400 flex items-center gap-2">
                                     <span>🎓</span>
                                     <span>Student Information</span>
                                 </h3>
                                 <div>
-                                    <label className="block text-gray-700 font-semibold mb-2">Education</label>
+                                    <label className="block text-text-main font-semibold mb-2">Education</label>
                                     <input
                                         type="text"
                                         name="education"
@@ -210,7 +210,7 @@ function Register() {
                                     />
                                 </div>
                                 <div>
-                                    <label className="block text-gray-700 font-semibold mb-2">Years of Experience</label>
+                                    <label className="block text-text-main font-semibold mb-2">Years of Experience</label>
                                     <input
                                         type="number"
                                         name="experience"
@@ -222,7 +222,7 @@ function Register() {
                                     />
                                 </div>
                                 <div>
-                                    <label className="block text-gray-700 font-semibold mb-2">Career Goals</label>
+                                    <label className="block text-text-main font-semibold mb-2">Career Goals</label>
                                     <textarea
                                         name="careerGoals"
                                         value={formData.careerGoals}
@@ -237,13 +237,13 @@ function Register() {
 
                         {/* Company-specific fields */}
                         {formData.role === 'company' && (
-                            <div className="space-y-4 p-5 bg-gradient-to-br from-blue-50/50 to-purple-50/50 rounded-xl border border-purple-100">
-                                <h3 className="font-bold text-primary-700 flex items-center gap-2">
+                            <div className="space-y-4 p-5 bg-primary-500/10 rounded-xl border border-primary-500/30">
+                                <h3 className="font-bold text-primary-400 flex items-center gap-2">
                                     <span>🏢</span>
                                     <span>Company Information</span>
                                 </h3>
                                 <div>
-                                    <label className="block text-gray-700 font-semibold mb-2">Company Name</label>
+                                    <label className="block text-text-main font-semibold mb-2">Company Name</label>
                                     <input
                                         type="text"
                                         name="companyName"
@@ -255,7 +255,7 @@ function Register() {
                                     />
                                 </div>
                                 <div>
-                                    <label className="block text-gray-700 font-semibold mb-2">Industry</label>
+                                    <label className="block text-text-main font-semibold mb-2">Industry</label>
                                     <input
                                         type="text"
                                         name="industry"
@@ -271,7 +271,7 @@ function Register() {
                         <button
                             type="submit"
                             disabled={loading}
-                            className="btn-primary w-full text-lg py-4 disabled:opacity-50 disabled:cursor-not-allowed"
+                            className="btn btn-primary w-full text-lg py-4 justify-center disabled:opacity-50 disabled:cursor-not-allowed"
                         >
                             {loading ? (
                                 <div className="flex items-center justify-center gap-3">
@@ -288,10 +288,10 @@ function Register() {
                             )}
                         </button>
 
-                        <div className="text-center pt-4 border-t border-gray-200">
-                            <p className="text-gray-600">
+                        <div className="text-center pt-4 border-t border-white/10">
+                            <p className="text-text-muted">
                                 Already have an account?{' '}
-                                <Link to="/login" className="text-gradient font-bold hover:underline">
+                                <Link to="/login" className="text-primary-400 font-bold hover:text-primary-300">
                                     Login here
                                 </Link>
                             </p>

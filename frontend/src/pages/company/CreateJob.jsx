@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import api from '../../utils/api';
 import SkillImportanceSelector from '../../components/SkillImportanceSelector';
 
 function CreateJob() {
-    const { user, logout } = useAuth();
+    const { user } = useAuth();
     const navigate = useNavigate();
     const [formData, setFormData] = useState({
         title: '',
@@ -99,41 +99,23 @@ function CreateJob() {
     };
 
     return (
-        <div className="min-h-screen bg-gray-50">
-            {/* Header */}
-            <div className="bg-white shadow">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-                    <div className="flex justify-between items-center">
-                        <div>
-                            <h1 className="text-2xl font-bold text-primary-600">TalentBridge</h1>
-                            <p className="text-gray-600">{user?.profile?.companyName || 'Company'}</p>
-                        </div>
-                        <button onClick={logout} className="btn-secondary">
-                            Logout
-                        </button>
-                    </div>
-                </div>
+        <div className="container">
+            {/* Back Link */}
+            <div className="mb-6">
+                <Link to="/company/dashboard" className="inline-flex items-center text-primary-400 hover:text-primary-300 font-medium">
+                    ← Back to Dashboard
+                </Link>
             </div>
 
-            {/* Main Content */}
-            <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-                <div className="mb-6">
-                    <button
-                        onClick={() => navigate('/company/dashboard')}
-                        className="text-primary-600 hover:text-primary-700 font-medium"
-                    >
-                        ← Back to Dashboard
-                    </button>
-                </div>
-
+            <div className="max-w-3xl mx-auto">
                 <div className="card">
-                    <h2 className="text-2xl font-bold mb-2">Post New Job</h2>
-                    <p className="text-gray-600 mb-6">
+                    <h2 className="text-2xl font-bold text-text-main mb-2">Post New Job</h2>
+                    <p className="text-text-muted mb-6">
                         Create a skill-first job posting. No resumes required - candidates are matched purely on their verified skill confidence.
                     </p>
 
                     {error && (
-                        <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded mb-4">
+                        <div className="bg-danger/20 border border-danger/50 text-danger px-4 py-3 rounded-xl mb-4">
                             {error}
                         </div>
                     )}
@@ -141,7 +123,7 @@ function CreateJob() {
                     <form onSubmit={handleSubmit}>
                         {/* Job Title */}
                         <div className="mb-6">
-                            <label className="block text-gray-700 font-medium mb-2">
+                            <label className="block text-text-main font-medium mb-2">
                                 Job Title *
                             </label>
                             <input
@@ -156,7 +138,7 @@ function CreateJob() {
 
                         {/* Job Description */}
                         <div className="mb-6">
-                            <label className="block text-gray-700 font-medium mb-2">
+                            <label className="block text-text-main font-medium mb-2">
                                 Job Description *
                             </label>
                             <textarea
@@ -171,10 +153,10 @@ function CreateJob() {
 
                         {/* Required Skills */}
                         <div className="mb-6">
-                            <label className="block text-gray-700 font-medium mb-2">
+                            <label className="block text-text-main font-medium mb-2">
                                 Required Skills *
                             </label>
-                            <p className="text-sm text-gray-600 mb-3">
+                            <p className="text-sm text-text-muted mb-3">
                                 Select skills and assign importance weights (1-5). Candidates will be matched based on their SCI scores.
                             </p>
 
@@ -204,13 +186,13 @@ function CreateJob() {
                             {selectedSkills.length > 0 ? (
                                 <div className="space-y-4">
                                     {selectedSkills.map(skill => (
-                                        <div key={skill.skillId} className="border border-gray-200 rounded-lg p-4">
+                                        <div key={skill.skillId} className="bg-white/5 border border-white/10 rounded-xl p-4">
                                             <div className="flex justify-between items-start mb-3">
-                                                <h4 className="font-semibold text-lg">{skill.skillName}</h4>
+                                                <h4 className="font-semibold text-lg text-text-main">{skill.skillName}</h4>
                                                 <button
                                                     type="button"
                                                     onClick={() => removeSkill(skill.skillId)}
-                                                    className="text-red-600 hover:text-red-700 text-sm"
+                                                    className="text-danger hover:text-danger/80 text-sm font-medium"
                                                 >
                                                     Remove
                                                 </button>
@@ -218,7 +200,7 @@ function CreateJob() {
 
                                             <div className="space-y-3">
                                                 <div>
-                                                    <label className="block text-sm text-gray-600 mb-1">
+                                                    <label className="block text-sm text-text-muted mb-1">
                                                         Importance Level
                                                     </label>
                                                     <SkillImportanceSelector
@@ -228,7 +210,7 @@ function CreateJob() {
                                                 </div>
 
                                                 <div>
-                                                    <label className="block text-sm text-gray-600 mb-1">
+                                                    <label className="block text-sm text-text-muted mb-1">
                                                         Minimum SCI Required: {skill.minSCI}
                                                     </label>
                                                     <input
@@ -237,9 +219,9 @@ function CreateJob() {
                                                         max="100"
                                                         value={skill.minSCI}
                                                         onChange={(e) => updateSkillMinSCI(skill.skillId, e.target.value)}
-                                                        className="w-full"
+                                                        className="w-full accent-primary-500"
                                                     />
-                                                    <div className="flex justify-between text-xs text-gray-500">
+                                                    <div className="flex justify-between text-xs text-text-muted">
                                                         <span>0 (Any level)</span>
                                                         <span>50 (Moderate)</span>
                                                         <span>100 (Expert)</span>
@@ -250,28 +232,33 @@ function CreateJob() {
                                     ))}
                                 </div>
                             ) : (
-                                <div className="text-center py-8 border-2 border-dashed border-gray-300 rounded-lg">
-                                    <p className="text-gray-500">No skills added yet. Select skills from the dropdown above.</p>
+                                <div className="text-center py-8 border-2 border-dashed border-white/20 rounded-xl">
+                                    <p className="text-text-muted">No skills added yet. Select skills from the dropdown above.</p>
                                 </div>
                             )}
                         </div>
 
                         {/* Info Box */}
-                        <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
-                            <h4 className="font-semibold text-blue-900 mb-2">🎯 Skill-First Hiring</h4>
-                            <ul className="text-sm text-blue-800 space-y-1">
-                                <li>• No resume required - candidates matched on verified skills only</li>
-                                <li>• Importance weights (1-5) determine how much each skill affects the match</li>
-                                <li>• Candidates see their match percentage before applying</li>
-                                <li>• All matching is transparent and explainable</li>
-                            </ul>
+                        <div className="card border-primary-500/30 bg-primary-500/10 mb-6">
+                            <div className="flex items-start gap-3">
+                                <div className="text-2xl">🎯</div>
+                                <div>
+                                    <h4 className="font-semibold text-primary-400 mb-2">Skill-First Hiring</h4>
+                                    <ul className="text-sm text-text-muted space-y-1">
+                                        <li>• No resume required - candidates matched on verified skills only</li>
+                                        <li>• Importance weights (1-5) determine how much each skill affects the match</li>
+                                        <li>• Candidates see their match percentage before applying</li>
+                                        <li>• All matching is transparent and explainable</li>
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
 
                         {/* Submit Button */}
                         <button
                             type="submit"
                             disabled={loading}
-                            className="btn-primary w-full"
+                            className="btn btn-primary w-full py-3 justify-center text-lg"
                         >
                             {loading ? 'Posting Job...' : 'Post Job'}
                         </button>

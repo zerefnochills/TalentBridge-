@@ -124,43 +124,60 @@ router.post('/generate', protect, authorize('student'), async (req, res) => {
             specificInterests
         );
 
-        console.log('Navigator: Sending prompt to AI model:', aiModel);
+        try {
+            console.log('Navigator: Sending prompt to AI model:', aiModel);
 
-        const completion = await openai.chat.completions.create({
-            model: aiModel,
-            messages: [
-                { role: "system", content: NAVIGATOR_SYSTEM_PROMPT },
-                { role: "user", content: prompt }
-            ],
-            temperature: 0.7,
-            max_tokens: 1200
-        });
+            const completion = await openai.chat.completions.create({
+                model: aiModel,
+                messages: [
+                    { role: "system", content: NAVIGATOR_SYSTEM_PROMPT },
+                    { role: "user", content: prompt }
+                ],
+                temperature: 0.7,
+                max_tokens: 1200
+            });
 
-        const aiResponse = completion.choices[0].message.content;
-        console.log('Navigator: Received AI response, length:', aiResponse.length);
+            const aiResponse = completion.choices[0].message.content;
+            console.log('Navigator: Received AI response, length:', aiResponse.length);
 
-        // Parse and structure the roadmap
-        const roadmap = {
-            id: Date.now().toString(),
-            targetRole,
-            timeline: timeline || '3 months',
-            constraints: constraints || [],
-            userSkills,
-            skillGaps,
-            phases: parseAIRoadmapToPhases(aiResponse),
-            rawPlan: aiResponse,
-            createdAt: new Date(),
-            updatedAt: new Date()
-        };
+            // Parse and structure the roadmap
+            const roadmap = {
+                id: Date.now().toString(),
+                targetRole,
+                timeline: timeline || '3 months',
+                constraints: constraints || [],
+                userSkills,
+                skillGaps,
+                phases: parseAIRoadmapToPhases(aiResponse),
+                rawPlan: aiResponse,
+                createdAt: new Date(),
+                updatedAt: new Date()
+            };
 
-        // Store roadmap for this user
-        userRoadmaps.set(req.user._id.toString(), roadmap);
+            // Store roadmap for this user
+            userRoadmaps.set(req.user._id.toString(), roadmap);
 
-        res.json({
-            roadmap,
-            mode: `ai-powered (${aiProvider})`,
-            provider: aiProvider
-        });
+            res.json({
+                roadmap,
+                mode: `ai-powered (${aiProvider})`,
+                provider: aiProvider
+            });
+
+        } catch (aiError) {
+            console.error('Navigator: AI generation failed, falling back to rule-based:', aiError.message);
+
+            // Fallback to rule-based
+            const roadmap = generateRuleBasedRoadmap(targetRole, timeline, userSkills, skillGaps, constraints);
+            userRoadmaps.set(req.user._id.toString(), roadmap);
+
+            // Return success but note the fallback
+            return res.json({
+                roadmap,
+                mode: 'fallback-rule-based',
+                provider: 'none',
+                warning: 'AI service unavailable, generated rule-based plan.'
+            });
+        }
 
     } catch (error) {
         console.error('Navigator generate error:', error);

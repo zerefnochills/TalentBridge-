@@ -5,7 +5,7 @@ import api from '../../utils/api';
 import SkillMatchBreakdown from '../../components/SkillMatchBreakdown';
 
 function GapAnalysis() {
-    const { user, logout } = useAuth();
+    const { user } = useAuth();
     const [roles, setRoles] = useState([]);
     const [selectedRole, setSelectedRole] = useState(null);
     const [gapAnalysis, setGapAnalysis] = useState(null);
@@ -40,9 +40,9 @@ function GapAnalysis() {
     };
 
     const getReadinessColor = (percentage) => {
-        if (percentage >= 80) return 'text-green-600';
-        if (percentage >= 60) return 'text-yellow-600';
-        return 'text-red-600';
+        if (percentage >= 80) return 'text-success';
+        if (percentage >= 60) return 'text-warning';
+        return 'text-danger';
     };
 
     const getReadinessText = (percentage) => {
@@ -52,149 +52,131 @@ function GapAnalysis() {
     };
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-gray-50 via-purple-50/20 to-blue-50/30">
-            {/* Header */}
-            <div className="bg-gradient-to-r from-primary-600 via-purple-600 to-pink-600 shadow-lg">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-                    <div className="flex justify-between items-center">
-                        <div>
-                            <h1 className="text-3xl font-black text-white mb-1">🎯 Gap Analysis</h1>
-                            <p className="text-purple-100">Welcome, {user?.profile?.name}!</p>
-                        </div>
-                        <button onClick={logout} className="btn-secondary bg-white/20 hover:bg-white/30 text-white border-white/30">
-                            Logout
-                        </button>
-                    </div>
-                </div>
+        <div className="container">
+            {/* Page Header */}
+            <div className="mb-8">
+                <h1 className="text-3xl font-bold text-text-main mb-2">🎯 Skill Gap Analysis</h1>
+                <p className="text-text-muted">
+                    See how your current skills match up against your target role requirements.
+                </p>
             </div>
 
-            {/* Main Content */}
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-                <div className="mb-6 animate-slide-up">
-                    <Link to="/student/dashboard" className="inline-flex items-center text-primary-600 hover:text-primary-700 font-semibold group">
-                        <svg className="w-5 h-5 mr-2 group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7" />
-                        </svg>
-                        Back to Dashboard
-                    </Link>
-                </div>
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                {/* Role Selection - Sidebar */}
+                <div className="lg:col-span-1">
+                    <div className="card sticky top-4">
+                        <h3 className="font-semibold text-text-main mb-4">Select a Role</h3>
 
-                <div className="mb-8 text-center">
-                    <h2 className="text-4xl font-black text-gradient mb-3">Discover Your Skill Gaps</h2>
-                    <p className="text-gray-600 text-lg">
-                        See how your current skills match up against your target role requirements.
-                    </p>
-                </div>
-
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                    {/* Role Selection */}
-                    <div className="lg:col-span-1">
-                        <div className="card sticky top-4">
-                            <h3 className="font-semibold mb-4">Select a Role</h3>
-
-                            {loading ? (
-                                <p className="text-gray-500">Loading roles...</p>
-                            ) : roles.length === 0 ? (
-                                <p className="text-gray-500">No roles available</p>
-                            ) : (
-                                <div className="space-y-2">
-                                    {roles.map(role => (
-                                        <button
-                                            key={role._id}
-                                            onClick={() => analyzeGap(role._id)}
-                                            className={`w-full text-left p-3 rounded-lg border-2 transition ${selectedRole === role._id
-                                                ? 'border-primary-600 bg-primary-50'
-                                                : 'border-gray-200 hover:border-primary-300'
-                                                }`}
-                                        >
-                                            <div className="font-medium">{role.title}</div>
-                                            <div className="text-xs text-gray-500 mt-1">
-                                                {role.requiredSkills?.length || 0} skills required
-                                            </div>
-                                        </button>
-                                    ))}
-                                </div>
-                            )}
-                        </div>
-                    </div>
-
-                    {/* Gap Analysis Results */}
-                    <div className="lg:col-span-2">
-                        {!gapAnalysis ? (
-                            <div className="card text-center py-12">
-                                <p className="text-gray-500">
-                                    Select a role from the left to see your skill gap analysis
-                                </p>
+                        {loading ? (
+                            <div className="flex items-center justify-center py-8">
+                                <div className="loading-spinner"></div>
                             </div>
+                        ) : roles.length === 0 ? (
+                            <p className="text-text-muted">No roles available</p>
                         ) : (
-                            <div className="space-y-6">
-                                {/* Overall Readiness */}
-                                <div className="card">
-                                    <div className="text-center mb-6">
-                                        <h3 className="text-xl font-bold mb-2">{gapAnalysis.role?.title}</h3>
-                                        <div className={`text-5xl font-bold ${getReadinessColor(gapAnalysis.matchPercentage)}`}>
-                                            {gapAnalysis.matchPercentage}%
+                            <div className="space-y-2">
+                                {roles.map(role => (
+                                    <button
+                                        key={role._id}
+                                        onClick={() => analyzeGap(role._id)}
+                                        className={`w-full text-left p-3 rounded-xl border transition-all duration-200 ${selectedRole === role._id
+                                                ? 'border-primary-500 bg-primary-500/20 text-text-main'
+                                                : 'border-white/10 hover:border-primary-500/50 hover:bg-white/5 text-text-muted'
+                                            }`}
+                                    >
+                                        <div className="font-medium text-text-main">{role.title}</div>
+                                        <div className="text-xs text-text-muted mt-1">
+                                            {role.requiredSkills?.length || 0} skills required
                                         </div>
-                                        <p className="text-gray-600 mt-2">{getReadinessText(gapAnalysis.matchPercentage)}</p>
-                                    </div>
-
-                                    <div className="grid grid-cols-3 gap-4 pt-4 border-t">
-                                        <div className="text-center">
-                                            <div className="text-2xl font-bold text-green-600">
-                                                {gapAnalysis.skillBreakdown?.filter(s => s.status === 'meets').length || 0}
-                                            </div>
-                                            <div className="text-xs text-gray-600">Skills Met</div>
-                                        </div>
-                                        <div className="text-center">
-                                            <div className="text-2xl font-bold text-yellow-600">
-                                                {gapAnalysis.skillBreakdown?.filter(s => s.status === 'below').length || 0}
-                                            </div>
-                                            <div className="text-xs text-gray-600">Below Threshold</div>
-                                        </div>
-                                        <div className="text-center">
-                                            <div className="text-2xl font-bold text-red-600">
-                                                {gapAnalysis.skillBreakdown?.filter(s => s.status === 'missing').length || 0}
-                                            </div>
-                                            <div className="text-xs text-gray-600">Missing Skills</div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                {/* Detailed Breakdown */}
-                                <div className="card">
-                                    <SkillMatchBreakdown skillBreakdown={gapAnalysis.skillBreakdown} />
-                                </div>
-
-                                {/* Recommendations */}
-                                {gapAnalysis.recommendations && gapAnalysis.recommendations.length > 0 && (
-                                    <div className="card bg-blue-50 border-blue-200">
-                                        <h4 className="font-semibold text-blue-900 mb-3">📚 Learning Recommendations</h4>
-                                        <ul className="space-y-2">
-                                            {gapAnalysis.recommendations.map((rec, idx) => (
-                                                <li key={idx} className="text-sm text-blue-800">
-                                                    • {rec}
-                                                </li>
-                                            ))}
-                                        </ul>
-                                    </div>
-                                )}
+                                    </button>
+                                ))}
                             </div>
                         )}
                     </div>
                 </div>
 
-                {/* Info Box */}
-                <div className="mt-8 bg-blue-50 border border-blue-200 rounded-lg p-6">
-                    <h3 className="font-bold text-blue-900 mb-2">💡 About Gap Analysis</h3>
-                    <ul className="text-sm text-blue-800 space-y-1">
-                        <li>• See exactly which skills you need for any role</li>
-                        <li>• Focus your learning on high-impact skills</li>
-                        <li>• Track your progress toward career goals</li>
-                        <li>• All analysis based on transparent SCI calculations</li>
-                    </ul>
+                {/* Gap Analysis Results */}
+                <div className="lg:col-span-2">
+                    {!gapAnalysis ? (
+                        <div className="card text-center py-12">
+                            <div className="text-5xl mb-4">📊</div>
+                            <p className="text-text-muted">
+                                Select a role from the left to see your skill gap analysis
+                            </p>
+                        </div>
+                    ) : (
+                        <div className="space-y-6">
+                            {/* Overall Readiness */}
+                            <div className="card">
+                                <div className="text-center mb-6">
+                                    <h3 className="text-xl font-bold text-text-main mb-2">{gapAnalysis.role?.title}</h3>
+                                    <div className={`text-6xl font-black ${getReadinessColor(gapAnalysis.matchPercentage)}`}>
+                                        {gapAnalysis.matchPercentage}%
+                                    </div>
+                                    <p className="text-text-muted mt-2">{getReadinessText(gapAnalysis.matchPercentage)}</p>
+                                </div>
+
+                                <div className="grid grid-cols-3 gap-4 pt-4 border-t border-white/10">
+                                    <div className="text-center">
+                                        <div className="text-2xl font-bold text-success">
+                                            {gapAnalysis.skillBreakdown?.filter(s => s.status === 'meets').length || 0}
+                                        </div>
+                                        <div className="text-xs text-text-muted">Skills Met</div>
+                                    </div>
+                                    <div className="text-center">
+                                        <div className="text-2xl font-bold text-warning">
+                                            {gapAnalysis.skillBreakdown?.filter(s => s.status === 'below').length || 0}
+                                        </div>
+                                        <div className="text-xs text-text-muted">Below Threshold</div>
+                                    </div>
+                                    <div className="text-center">
+                                        <div className="text-2xl font-bold text-danger">
+                                            {gapAnalysis.skillBreakdown?.filter(s => s.status === 'missing').length || 0}
+                                        </div>
+                                        <div className="text-xs text-text-muted">Missing Skills</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Detailed Breakdown */}
+                            <div className="card">
+                                <SkillMatchBreakdown skillBreakdown={gapAnalysis.skillBreakdown} />
+                            </div>
+
+                            {/* Recommendations */}
+                            {gapAnalysis.recommendations && gapAnalysis.recommendations.length > 0 && (
+                                <div className="card border-primary-500/30 bg-primary-500/10">
+                                    <h4 className="font-semibold text-primary-400 mb-3">📚 Learning Recommendations</h4>
+                                    <ul className="space-y-2">
+                                        {gapAnalysis.recommendations.map((rec, idx) => (
+                                            <li key={idx} className="text-sm text-text-muted">
+                                                • {rec}
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
+                            )}
+                        </div>
+                    )}
                 </div>
             </div>
-        </div >
+
+            {/* Info Box */}
+            <div className="mt-8 card border-primary-500/30 bg-primary-500/10">
+                <div className="flex items-start gap-4">
+                    <div className="text-3xl">💡</div>
+                    <div>
+                        <h3 className="font-bold text-primary-400 mb-2">About Gap Analysis</h3>
+                        <ul className="text-sm text-text-muted space-y-1">
+                            <li>• See exactly which skills you need for any role</li>
+                            <li>• Focus your learning on high-impact skills</li>
+                            <li>• Track your progress toward career goals</li>
+                            <li>• All analysis based on transparent SCI calculations</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
     );
 }
 
