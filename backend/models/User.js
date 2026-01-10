@@ -22,9 +22,19 @@ const userSchema = new mongoose.Schema({
             type: String,
             required: true
         },
+        username: String,
+        accountType: {
+            type: String,
+            enum: ['Student', 'Self-learner', 'Professional'],
+            default: 'Student'
+        },
         education: String,
         experience: Number,
         careerGoals: String,
+        githubLink: String,
+        linkedinLink: String,
+        portfolioLink: String,
+        profilePhoto: String,
         // Company-specific fields
         companyName: String,
         industry: String

@@ -4,7 +4,7 @@ import { useAuth } from '../../context/AuthContext';
 import api from '../../utils/api';
 
 function Profile() {
-    const { user, loadUser } = useAuth();
+    const { user, loadUser, updateUser } = useAuth();
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
     const [success, setSuccess] = useState('');
@@ -52,8 +52,13 @@ function Profile() {
         setError('');
 
         try {
-            await api.put('/auth/profile', { profile: formData });
-            await loadUser();
+            const res = await api.put('/auth/profile', { profile: formData });
+            // Immediately update context with response data
+            if (res.data.user) {
+                updateUser(res.data.user);
+            } else {
+                await loadUser();
+            }
             setSuccess('Profile updated successfully!');
             setTimeout(() => setSuccess(''), 5000);
         } catch (err) {

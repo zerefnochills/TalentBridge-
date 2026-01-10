@@ -71,18 +71,32 @@ function buildCareerPath(currentRole, allRoles, depth = 2) {
             return null;
         }
 
-        const nextRoleIds = role.nextRoles || [];
-        const nextRoles = nextRoleIds
-            .map(roleId => roleMap.get(roleId.toString()))
+        const nextRoleRefs = role.nextRoles || [];
+        // Handle both populated objects and ObjectId references
+        const nextRoles = nextRoleRefs
+            .map(ref => {
+                // If already populated (has title), use the object directly
+                if (ref && ref.title) {
+                    return ref;
+                }
+                // Otherwise look up by ID
+                const id = ref?._id?.toString() || ref?.toString();
+                return id ? roleMap.get(id) : undefined;
+            })
             .filter(r => r !== undefined)
             .map(nextRole => buildPath(nextRole, currentDepth - 1));
 
         return {
-            roleId: role._id,
-            roleTitle: role.title,
-            description: role.description,
-            avgSalary: role.avgSalary,
-            requiredSkills: role.requiredSkills || [],
+            role: {
+                _id: role._id,
+                title: role.title,
+                description: role.description,
+                avgSalary: role.avgSalary,
+                requiredSkills: role.requiredSkills || [],
+                workEnvironment: role.workEnvironment,
+                keyCompetencies: role.keyCompetencies || [],
+                learningResources: role.learningResources || []
+            },
             nextRoles: nextRoles.filter(r => r !== null)
         };
     }

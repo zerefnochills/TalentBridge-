@@ -24,7 +24,17 @@ const roleSchema = new mongoose.Schema({
         ref: 'Role'
     }],
     avgSalary: String,
-    description: String
+    description: String,
+    workEnvironment: String,
+    keyCompetencies: [String],
+    learningResources: [{
+        title: String,
+        url: String,
+        type: {
+            type: String,
+            enum: ['video', 'article', 'course', 'book', 'documentation']
+        }
+    }]
 });
 
 module.exports = mongoose.model('Role', roleSchema);

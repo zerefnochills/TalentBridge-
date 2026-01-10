@@ -248,7 +248,20 @@ async function seedRoles(skillsData) {
                     { skillId: skillMap['Git'], minimumSCI: 50 }
                 ],
                 nextRoles: [],
-                avgSalary: '$60,000 - $90,000'
+                avgSalary: '$60,000 - $90,000',
+                workEnvironment: 'Remote-friendly, collaborative team setting with frequent design reviews and agile sprints.',
+                keyCompetencies: [
+                    'UI/UX Design Principles',
+                    'Responsive Design',
+                    'State Management',
+                    'API Integration',
+                    'Performance Optimization'
+                ],
+                learningResources: [
+                    { title: 'React Official Docs', url: 'https://react.dev', type: 'documentation' },
+                    { title: 'JavaScript.info', url: 'https://javascript.info', type: 'article' },
+                    { title: 'Frontend Masters', url: 'https://frontendmasters.com', type: 'course' }
+                ]
             },
             {
                 title: 'Backend Developer',
@@ -259,7 +272,20 @@ async function seedRoles(skillsData) {
                     { skillId: skillMap['Git'], minimumSCI: 50 }
                 ],
                 nextRoles: [],
-                avgSalary: '$65,000 - $95,000'
+                avgSalary: '$65,000 - $95,000',
+                workEnvironment: 'Focus on system architecture, database design, and API development. Often involves code reviews and performance tuning.',
+                keyCompetencies: [
+                    'RESTful API Design',
+                    'Database Management',
+                    'Authentication & Security',
+                    'Server Optimization',
+                    'Microservices Architecture'
+                ],
+                learningResources: [
+                    { title: 'Node.js Official Docs', url: 'https://nodejs.org/docs', type: 'documentation' },
+                    { title: 'MongoDB University', url: 'https://university.mongodb.com', type: 'course' },
+                    { title: 'Express.js Guide', url: 'https://expressjs.com/en/guide/routing.html', type: 'documentation' }
+                ]
             },
             {
                 title: 'Full Stack Developer',
@@ -271,7 +297,20 @@ async function seedRoles(skillsData) {
                     { skillId: skillMap['MongoDB'], minimumSCI: 60 }
                 ],
                 nextRoles: [],
-                avgSalary: '$70,000 - $110,000'
+                avgSalary: '$70,000 - $110,000',
+                workEnvironment: 'Versatile role requiring end-to-end ownership of features. Involves cross-functional collaboration with designers and product managers.',
+                keyCompetencies: [
+                    'Full Application Lifecycle',
+                    'DevOps Basics',
+                    'System Design',
+                    'Cross-Browser Compatibility',
+                    'Deployment & CI/CD'
+                ],
+                learningResources: [
+                    { title: 'The Odin Project', url: 'https://www.theodinproject.com', type: 'course' },
+                    { title: 'Full Stack Open', url: 'https://fullstackopen.com', type: 'course' },
+                    { title: 'freeCodeCamp', url: 'https://www.freecodecamp.org', type: 'course' }
+                ]
             }
         ];
 

@@ -147,4 +147,41 @@ router.put('/user/:skillId', protect, authorize('student'), async (req, res) => 
     }
 });
 
+// @route   DELETE /api/skills/user/:skillId
+// @desc    Remove skill from user profile
+// @access  Private (student only)
+router.delete('/user/:skillId', protect, authorize('student'), async (req, res) => {
+    try {
+        const { skillId } = req.params;
+
+        const user = await User.findById(req.user._id);
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        const skillIndex = user.skills.findIndex(
+            s => s.skillId.toString() === skillId
+        );
+
+        if (skillIndex < 0) {
+            return res.status(404).json({ message: 'Skill not found in user profile' });
+        }
+
+        // Remove skill
+        user.skills.splice(skillIndex, 1);
+        await user.save();
+
+        const updatedUser = await User.findById(req.user._id)
+            .populate('skills.skillId', 'name category description');
+
+        res.json({
+            message: 'Skill removed successfully',
+            skills: updatedUser.skills
+        });
+    } catch (error) {
+        console.error('Remove skill error:', error);
+        res.status(500).json({ message: 'Server error removing skill' });
+    }
+});
+
 module.exports = router;

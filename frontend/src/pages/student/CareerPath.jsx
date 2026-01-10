@@ -95,14 +95,58 @@ function CareerPath() {
                                 {/* Average Salary */}
                                 {node.role.avgSalary && (
                                     <div className="text-sm text-text-muted">
-                                        💰 Avg Salary: <span className="font-medium text-text-main">{node.role.avgSalary}</span>
+                                        Avg Salary: <span className="font-medium text-text-main">{node.role.avgSalary}</span>
+                                    </div>
+                                )}
+
+                                {/* Work Environment */}
+                                {node.role.workEnvironment && (
+                                    <div className="mt-3 p-3 bg-white/5 rounded-lg border border-white/10">
+                                        <h4 className="text-xs font-semibold text-primary-400 mb-1">Work Environment</h4>
+                                        <p className="text-sm text-text-muted">{node.role.workEnvironment}</p>
+                                    </div>
+                                )}
+
+                                {/* Key Competencies */}
+                                {node.role.keyCompetencies && node.role.keyCompetencies.length > 0 && (
+                                    <div className="mt-3">
+                                        <h4 className="text-xs font-semibold text-text-muted mb-2">Key Competencies</h4>
+                                        <div className="flex flex-wrap gap-2">
+                                            {node.role.keyCompetencies.map((comp, idx) => (
+                                                <span key={idx} className="px-2 py-1 text-xs bg-primary-500/20 text-primary-300 rounded-lg">
+                                                    {comp}
+                                                </span>
+                                            ))}
+                                        </div>
+                                    </div>
+                                )}
+
+                                {/* Learning Resources */}
+                                {node.role.learningResources && node.role.learningResources.length > 0 && (
+                                    <div className="mt-3">
+                                        <h4 className="text-xs font-semibold text-text-muted mb-2">Learning Resources</h4>
+                                        <ul className="space-y-1">
+                                            {node.role.learningResources.map((res, idx) => (
+                                                <li key={idx} className="text-sm">
+                                                    <a
+                                                        href={res.url}
+                                                        target="_blank"
+                                                        rel="noopener noreferrer"
+                                                        className="text-primary-400 hover:underline"
+                                                    >
+                                                        {res.title}
+                                                    </a>
+                                                    <span className="ml-2 text-xs text-text-muted capitalize">({res.type})</span>
+                                                </li>
+                                            ))}
+                                        </ul>
                                     </div>
                                 )}
 
                                 {/* Timeline Estimate */}
                                 {level > 0 && (
                                     <div className="mt-2 text-sm text-primary-400">
-                                        ⏱️ Estimated time to reach: {level * 1.5}-{level * 2} years
+                                        Estimated time to reach: {level * 1.5}-{level * 2} years
                                     </div>
                                 )}
                             </div>
@@ -184,10 +228,10 @@ function CareerPath() {
 
                             {renderProgressionNode(careerPath)}
 
-                            {!careerPath.nextRoles || careerPath.nextRoles.length === 0 && (
+                            {(!careerPath.nextRoles || careerPath.nextRoles.length === 0) && (
                                 <div className="card border-warning/30 bg-warning/10">
                                     <p className="text-sm text-text-main">
-                                        ℹ️ This role currently has no defined progression paths in our system.
+                                        This role currently has no defined progression paths in our system.
                                         Check back later as we add more career data!
                                     </p>
                                 </div>
